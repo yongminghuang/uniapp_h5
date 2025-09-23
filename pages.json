@@ -1,0 +1,435 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/course/find-sub-course",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "page_smartcard/pages/smartcard/smart-card-page",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+			}
+		},
+
+		{
+			"path": "pages/course/course",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+
+			}
+		},
+		{
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+			}
+		},
+		// {
+		// 	"path": "pages/mine/kefu",
+		// 	"style": {
+		// 		"navigationBarTitleText": "客服"
+		// 	}
+		// },
+		{
+			"path": "pages/skill-video/skill-video-list",
+			"style": {
+				"navigationBarTitleText": "技巧小视频"
+			}
+		},
+		{
+			"path": "pages/skill-video/skill-video",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#000",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/course/course-video",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#000",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		// {
+		// 	"path": "pages/login/sms-login",
+		// 	"style": {
+		// 		"navigationBarTitleText": "",
+		// 		"enablePullDownRefresh": false,
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/live/live",
+		// 	"style": {
+		// 		"navigationBarTitleText": "",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		{
+			"path": "pages/live/live-video",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#000",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/mine/my-setting",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/city/city",
+			"style": {
+				"navigationBarTitleText": "选择城市"
+			}
+		},
+		// {
+		// 	"path": "pages/mine/forever-vip-detail",
+		// 	"style": {
+		// 		"navigationBarTitleText": "会员详情",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/mine/30-vip-detail",
+		// 	"style": {
+		// 		"navigationBarTitleText": "",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/mine/refund-no-vip-page",
+		// 	"style": {
+		// 		"navigationBarTitleText": "",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		{
+			"path": "pages/mine/web-page",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		// {
+		// 	"path": "pages/mine/refund-page",
+		// 	"style": {
+		// 		"navigationBarTitleText": "",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		{
+			"path": "pages/subject-video/subject-video",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/subject-video/subject-video-detail",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/modify/modify",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/modify/mine-modify-list",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 50
+			}
+		},
+		{
+			"path": "pages/modify/mine-modify-detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		// {
+		// 	"path": "pages/refund/refund-apply-record-list",
+		// 	"style": {
+		// 		"navigationBarTitleText": "申请记录",
+		// 		"navigationBarBackgroundColor": "#247CEE",
+		// 		"navigationBarTextStyle": "white",
+		// 		"enablePullDownRefresh": true,
+		// 		"onReachBottomDistance": 50
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/refund/refund-apply-record-detail",
+		// 	"style": {
+		// 		"navigationBarTitleText": "退款详情",
+		// 		"navigationBarBackgroundColor": "#247CEE",
+		// 		"navigationBarTextStyle": "white"
+		// 	}
+		// },
+
+		{
+			"path": "pages/mine/about",
+			"style": {
+				"navigationBarTitleText": "关于"
+			}
+		},
+		{
+			"path": "pages/mine/privacy",
+			"style": {
+				"navigationBarTitleText": "隐私设置"
+			}
+		},
+		{
+			"path": "pages/mine/safe",
+			"style": {
+				"navigationBarTitleText": "账号安全"
+			}
+		},
+		{
+			"path": "pages/mine/unregister",
+			"style": {
+				"navigationBarTitleText": "注销账号"
+			}
+		},
+		{
+			"path": "pages/mine/safe-phone",
+			"style": {
+				"navigationBarTitleText": "账号安全"
+			}
+		},
+		{
+			"path": "pages/mine/unbind-phone",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/mine/mine-info",
+			"style": {
+				"navigationBarTitleText": "我的资料"
+			}
+		},
+		{
+			"path": "pages/exam/exam-ready",
+			"style": {
+				"navigationBarTitleText": "模拟考试",
+				"navigationBarBackgroundColor": "#f3f7f9",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/exam/exam-record",
+			"style": {
+				"navigationBarTitleText": "模拟记录",
+				"navigationBarBackgroundColor": "#1C90F6",
+				"navigationBarTextStyle": "white"
+
+			}
+		},
+		{
+			"path": "pages/exam/exam-page",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/exam/exam-result",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+
+		{
+			"path": "pages/mine/openVip",
+			"style": {
+				"navigationBarTitleText": "开通会员",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/mine/vip-info",
+			"style": {
+				"navigationBarTitleText": "会员详情",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/mine/problem-page",
+			"style": {
+				"navigationBarTitleText": "客服中心"
+			}
+		},
+		{
+			"path": "pages/index/ready-before-exam-page",
+			"style": {
+				"navigationBarTitleText": "考前密卷"
+			}
+		},
+		{
+			"path": "pages/index/learn_fast_tip_page",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/course/fine-course",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/course/my-course",
+			"style": {
+				"navigationBarTitleText": "我的课程"
+			}
+		}
+
+	],
+	"subPackages": [{
+		"root": "page_learn",
+		"pages": [{
+				"path": "pages/learn/learn-page",
+				"style": {
+					"navigationBarTitleText": "",
+					"navigationStyle": "custom"
+				}
+			},
+			{
+				"path": "pages/learn/learn-classify",
+				"style": {
+					"navigationBarTitleText": ""
+				}
+			},
+			{
+				"path": "pages/learn/skill-ready-page/skill-ready-page",
+				"style": {
+					"navigationBarTitleText": "技巧练题",
+					"navigationBarTextStyle": "white",
+					"navigationBarBackgroundColor": "#237ded"
+				}
+			},
+			{
+				"path": "pages/learn/wrong-favorites-page/wrong-favorites-page",
+				"style": {
+					"navigationBarTitleText": "错题-收藏",
+					"navigationBarBackgroundColor": "#237ded",
+					"navigationBarTextStyle": "white"
+				}
+			},
+			{
+				"path": "pages/learn/new-rule-ready-page",
+				"style": {
+					"navigationBarTitleText": "新规试题",
+					"navigationBarTextStyle": "white",
+					"navigationBarBackgroundColor": "#237ded"
+				}
+			},
+			{
+				"path": "pages/learn/skill-result/skill-result",
+				"style": {
+					"navigationBarTitleText": "练题情况",
+					"navigationStyle": "custom"
+				}
+			}
+		]
+	}, {
+		"root": "page_short_icon",
+		"pages": [{
+				"path": "pages/icon-shorthand/icon-shorthand",
+				"style": {
+					"navigationBarTitleText": "图标速记"
+				}
+			},
+			{
+				"path": "pages/icon-shorthand/icon-list",
+				"style": {
+					"navigationBarTitleText": ""
+				}
+			},
+			{
+				"path": "pages/icon-shorthand/icon-detail-html",
+				"style": {
+					"navigationBarTitleText": ""
+				}
+			},
+			{
+				"path": "pages/icon-shorthand/icon-detail-swiper",
+				"style": {
+					"navigationBarTitleText": ""
+				}
+			}
+		]
+	}],
+
+	"preloadRule": {
+		"pages/index/index": {
+			"network": "all",
+			"packages": ["page_learn", "page_short_icon"]
+		}
+	},
+
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#347ae4",
+		"borderStyle": "black",
+		"backgroundColor": "#F8F8F8",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/nav/ic_nav_home_n.png",
+				"selectedIconPath": "static/nav/ic_nav_home_s.png",
+				"text": "练题"
+			},
+			{
+				"pagePath": "pages/course/course",
+				"iconPath": "static/nav/ic_nav_course_n.png",
+				"selectedIconPath": "static/nav/ic_nav_course_s.png",
+				"text": "课程"
+			},
+			{
+				"pagePath": "pages/mine/mine",
+				"iconPath": "static/nav/ic_nav_mine_n.png",
+				"selectedIconPath": "static/nav/ic_nav_mine_s.png",
+				"text": "我的"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}

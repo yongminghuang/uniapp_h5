@@ -1,0 +1,1 @@
+export const BUILD_ENV = "release" //"develop" , "develop2", "trial",""trial"","release","zicai"
