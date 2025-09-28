@@ -5,6 +5,13 @@
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/index/learn_guide",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+			}
+		}, {
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "",
@@ -313,6 +320,12 @@
 			"path": "pages/course/my-course",
 			"style": {
 				"navigationBarTitleText": "我的课程"
+			}
+		},
+		{
+			"path": "pages/index/learn_guide",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		}
 

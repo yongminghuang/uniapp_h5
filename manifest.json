@@ -1,6 +1,6 @@
 {
-	"name": "lrjk_uniapp",
-	"appid": "",
+	"name": "uniapp_h5",
+	"appid": "__UNI__AB97AD0",
 	"description": "",
 	"versionName": "0.0.1",
 	"versionCode": "25092314",
@@ -56,7 +56,6 @@
 			"minified": true,
 			"es6": false,
 			"postcss": false
-
 		},
 		"usingComponents": true,
 		"optimization": {
