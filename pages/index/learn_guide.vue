@@ -16,7 +16,7 @@
 
 		<!-- 快速学习流程 -->
 		<view class="quick-learning">
-			<swiper class="swiper_wrap" :current="current" @change="swiperChange" indicator-dots="true" autoplay="true">
+			<swiper class="swiper_wrap" :current="current" indicator-dots="true" autoplay="true">
 				<swiper-item v-for="(item, index) in swiperList" :key="index">
 
 					<image class="swiper-item-image" :src="item.image" mode="scaleToFill" />
@@ -76,44 +76,19 @@
 		<view class="card-list">
 			<!-- 技巧练题 -->
 			<view class="card-item">
-				<view class="card-header">
-					<text class="card-title">技巧练题</text>
-					<text class="tag">技巧口诀</text>
-				</view>
-				<view class="card-body">
-					<text class="desc">题库全含 | 语音讲解 | 技巧口诀</text>
-				</view>
-				<view class="card-footer">
-					<text class="more">>>>></text>
-				</view>
+				<image class="card-item-image" src="/static/guide/bg_skill.png" mode="widthFix"></image>
+
 			</view>
 
 			<!-- 直播讲题 -->
 			<view class="card-item">
-				<view class="card-header">
-					<text class="card-title">直播讲题</text>
-					<text class="tag">直播</text>
-				</view>
-				<view class="card-body">
-					<text class="desc">答题技巧 | 老师讲解 | 一听就会</text>
-				</view>
-				<view class="card-footer">
-					<text class="more">>>>></text>
-				</view>
+				<image class="card-item-image" src="/static/guide/bg_live.png" mode="widthFix"></image>
 			</view>
 
 			<!-- 模拟真实考场 -->
 			<view class="card-item">
-				<view class="card-header">
-					<text class="card-title">模拟真实考场</text>
-					<text class="tag">实战</text>
-				</view>
-				<view class="card-body">
-					<text class="desc">真实考场题目 | 真实考场界面</text>
-				</view>
-				<view class="card-footer">
-					<text class="more">>>>></text>
-				</view>
+				<image class="card-item-image" src="/static/guide/bg_exam.png" mode="widthFix"></image>
+
 			</view>
 		</view>
 
@@ -146,11 +121,11 @@
 	}
 </script>
 
-<style scoped>
+<style lang="scss">
 	.container {
 		background-color: #f8f9fa;
 		/* padding: 0 20rpx; */
-		font-size: 28rpx;
+		padding-bottom: 90rpx;
 	}
 
 	.header {
@@ -353,15 +328,35 @@
 	}
 
 	.card-list {
-		margin: 20rpx 0;
+
+		display: flex;
+		flex-direction: column;
+		margin: 20px 24rpx;
+		gap: 20rpx;
+		/* 推荐使用 gap 代替 margin-bottom */
 	}
 
 	.card-item {
+		position: relative;
+		width: 100%;
+		// height: 110rpx;
 		background: white;
 		border-radius: 12rpx;
-		padding: 20rpx;
-		margin-bottom: 20rpx;
-		box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+		padding: 0rpx;
+		// margin-bottom: 20rpx;
+		// margin-left: 24rpx;
+		// margin-right: 24rpx;
+		margin-top: 10rpx;
+		overflow: hidden;
+		/* 确保图片圆角显示正常 */
+		// box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+	}
+
+	.card-item-image {
+		width: 100%;
+		height: auto;
+		display: block;
+		/* 消除图片底部间隙 */
 	}
 
 	.card-header {
@@ -404,19 +399,16 @@
 	}
 
 	.footer-banner {
+		position: fixed;
+		width: 100%;
+		bottom: 0;
+		left: 0;
 		background: #e63737;
 		color: white;
 		padding: 20rpx;
 		text-align: center;
 		border-radius: 12rpx;
-		margin: 20rpx 0;
-		font-size: 28rpx;
-	}
 
-	/* 响应式调整 */
-	@media (max-width: 375px) {
-		.container {
-			/* padding: 0 10rpx; */
-		}
+		font-size: 28rpx;
 	}
 </style>
