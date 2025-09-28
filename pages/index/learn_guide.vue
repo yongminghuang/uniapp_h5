@@ -59,7 +59,8 @@
 
 		<!-- 视频播放器 -->
 		<view class="video-container">
-			<video class="video-bg" id="myVideo" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4"
+			<video class="video-bg" id="myVideo"
+				src="https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-720p.mp4"
 				controls></video>
 		</view>
 
