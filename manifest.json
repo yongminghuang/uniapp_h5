@@ -1,5 +1,5 @@
 {
-	"name": "uniapp_h5",
+	"name": "驾考指南",
 	"appid": "__UNI__AB97AD0",
 	"description": "",
 	"versionName": "0.0.1",
@@ -74,5 +74,8 @@
 	"uniStatistics": {
 		"enable": false
 	},
-	"vueVersion": "2"
+	"vueVersion": "2",
+	"h5": {
+		"title": "驾考指南"
+	}
 }

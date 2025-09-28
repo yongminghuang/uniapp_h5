@@ -105,6 +105,11 @@
 				current: 0 // 当前显示的轮播图索引
 			};
 		},
+		onReady() {
+			uni.setNavigationBarTitle({
+				title: '驾考指南'
+			});
+		},
 		methods: {
 			goBack() {
 				uni.navigateBack();
