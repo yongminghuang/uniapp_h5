@@ -23,39 +23,42 @@
 
 				</swiper-item>
 			</swiper>
-			<!-- <text class="quick-title">快速学习</text>
-			<view class="steps">
-				<view class="step-item active">
-					<text class="step-num">1</text>
-					<text class="step-text">速成500题</text>
+
+		</view>
+		<!-- 模拟成绩展示 -->
+
+		<view class="double-marquee-container">
+			<!-- 第一行：恭喜消息 -->
+			<view class="marquee-row">
+				<view class="marquee-content" style="animation-duration: 15s;">
+					<view class="marquee-item" v-for="(msg, index) in list1" :key="index">
+						<image class="icon" src="/static/guide/ic_broadcast.png"></image>
+						<text class="msg">{{ msg }}</text>
+					</view>
+					<!-- 复制一份，实现无缝 -->
+					<view class="marquee-item" v-for="(msg, index) in list1" :key="index + list1.length">
+						<image class="icon" src="/static/guide/ic_broadcast.png"></image>
+						<text class="msg">{{ msg }}</text>
+					</view>
 				</view>
-				<text class="arrow">→</text>
-				<view class="step-item">
-					<text class="step-num">2</text>
-					<text class="step-text">模拟考试</text>
+			</view>
+
+			<!-- 第二行：系统通知 -->
+			<view class="marquee-row">
+				<view class="marquee-content" style="animation-duration: 18s;">
+					<view class="marquee-item" v-for="(msg, index) in list2" :key="index">
+						<image class="icon" src="/static/guide/ic_broadcast.png"></image>
+						<text class="msg">{{ msg }}</text>
+					</view>
+					<!-- 复制一份 -->
+					<view class="marquee-item" v-for="(msg, index) in list2" :key="index + list2.length">
+						<image class="icon" src="/static/guide/ic_broadcast.png"></image>
+						<text class="msg">{{ msg }}</text>
+					</view>
 				</view>
-				<text class="arrow">→</text>
-				<view class="step-item">
-					<text class="step-num">3</text>
-					<text class="step-text">视频夜宴</text>
-				</view>
-				<text class="arrow">→</text>
-				<view class="step-item">
-					<text class="step-num">4</text>
-					<text class="step-text">技巧练习</text>
-				</view>
-			</view> -->
+			</view>
 		</view>
 
-		<!-- 模拟成绩展示 -->
-		<view class="score-list">
-			<view class="score-item">
-				<text class="score-label">恭喜「真正经」模拟考试 100分</text>
-			</view>
-			<view class="score-item">
-				<text class="score-label">恭喜「龙哥大大」模拟考试 96分</text>
-			</view>
-		</view>
 
 		<!-- 视频播放器 -->
 		<view class="video-container">
@@ -102,7 +105,19 @@
 						image: '/static/guide/swiper_km4.png'
 					}
 				],
-				current: 0 // 当前显示的轮播图索引
+				current: 0, // 当前显示的轮播图索引
+				// 第一行：恭喜类消息
+				list1: [
+					'恭喜「张三」模拟考试 98分！',
+					'恭喜「李四」全科通过！',
+					'恭喜「王五」刷题满1000道！'
+				],
+				// 第二行：通知类消息
+				list2: [
+					'新题库已上线，快去练习！',
+					'周末直播课时间调整通知',
+					'会员积分即将到期，请及时使用'
+				]
 			};
 		},
 		onReady() {
@@ -400,6 +415,7 @@
 	.footer-banner {
 		position: fixed;
 		width: 100%;
+		height: 100rpx;
 		bottom: 0;
 		left: 0;
 		background: #e63737;
@@ -408,6 +424,80 @@
 		text-align: center;
 		border-radius: 12rpx;
 
-		font-size: 28rpx;
+		font-size: 32rpx;
+	}
+
+	.double-marquee-container {
+		width: 100%;
+		overflow: hidden;
+		background-color: #fff;
+		border-radius: 12px;
+		// box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		margin: 10px 0;
+	}
+
+	.marquee-row {
+		height: 44px;
+		display: flex;
+		align-items: center;
+		padding: 0 12px;
+		background-color: #f8f9fa;
+		// border-bottom: 1px solid #e9ecef;
+
+		&:last-child {
+			border-bottom: none;
+		}
+
+		&:first-child {
+			border-radius: 12px 12px 0 0;
+		}
+
+		&:last-child {
+			border-radius: 0 0 12px 12px;
+		}
+	}
+
+	.marquee-content {
+		display: flex;
+		white-space: nowrap;
+		animation: marquee 15s linear infinite;
+		animation-delay: 0s;
+		will-change: transform;
+		justify-content: flex-start;
+	}
+
+	// ✅ 真正无缝的关键：移动 -50%
+	@keyframes marquee {
+		0% {
+			transform: translateX(0);
+		}
+
+		100% {
+			transform: translateX(-50%);
+		}
+	}
+
+	.marquee-item {
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		margin-right: 30px;
+		padding: 6px 14px;
+		// background-color: #e3f2fd;
+		background: linear-gradient(to right, #FFEEC8, #FFFCF7);
+		border-radius: 22px;
+		font-size: 14px;
+		color: #1976d2;
+
+		.icon {
+			width: 32rpx;
+			height: 32rpx;
+			margin-right: 6px;
+			font-size: 16px;
+		}
+
+		.msg {
+			font-weight: 500;
+		}
 	}
 </style>
