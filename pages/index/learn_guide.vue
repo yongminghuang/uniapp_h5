@@ -59,17 +59,8 @@
 
 		<!-- 视频播放器 -->
 		<view class="video-container">
-			<image src="/static/video-placeholder.jpg" mode="aspectFill" class="video-bg"></image>
-			<view class="video-overlay">
-				<text class="play-btn">▶</text>
-			</view>
-			<view class="video-progress">
-				<text class="time-left">00:16</text>
-				<view class="progress-bar">
-					<view class="progress"></view>
-				</view>
-				<text class="time-right">00:30</text>
-			</view>
+			<video class="video-bg" id="myVideo" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/2minute-demo.mp4"
+				controls></video>
 		</view>
 
 		<!-- 功能卡片 -->
@@ -272,13 +263,15 @@
 
 	.video-container {
 		position: relative;
-		width: 100%;
+		width: calc(100% - 48rpx);
+		/* 计算宽度，减去左右边距的总和 */
 		height: 300rpx;
 		border-radius: 12rpx;
 		overflow: hidden;
-		margin: 20rpx 0;
-		background: #eee;
+		margin: 0rpx 24rpx;
+		// background: #eee;
 	}
+
 
 	.video-bg {
 		width: 100%;
