@@ -525,7 +525,7 @@
 		color: white;
 		padding: 20rpx;
 		text-align: center;
-		border-radius: 12rpx;
+		// border-radius: 12rpx;
 
 		font-size: 32rpx;
 	}
