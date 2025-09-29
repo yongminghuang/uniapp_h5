@@ -30,30 +30,41 @@
 		<view class="double-marquee-container">
 			<!-- 第一行：恭喜消息 -->
 			<view class="marquee-row">
-				<view class="marquee-content" style="animation-duration: 120s;">
+				<view class="marquee-content" ref="row1">
 					<view class="marquee-item" v-for="(msg, index) in list1" :key="index">
 						<image class="icon" src="/static/guide/ic_broadcast.png"></image>
-						<text class="msg">{{ msg.userName }}</text>
+						<span class="msg-text-color-1">恭喜</span>
+						<span class="msg-text-color-2">「{{ msg.userName }}」</span>
+						<span class="msg-text-color-1">模拟考试 </span>
+						<span class="msg-text-color-2">{{msg.score }}分</span>
 					</view>
 					<!-- 复制一份，实现无缝 -->
 					<view class="marquee-item" v-for="(msg, index) in list1" :key="index + list1.length">
-						<image class="icon" src="/static/guide/ic_broadcast.png"></image>
-						<text class="msg">{{ msg.userName }}</text>
+						<span class="msg-text-color-1">恭喜</span>
+						<span class="msg-text-color-2">「{{ msg.userName }}」</span>
+						<span class="msg-text-color-1">模拟考试 </span>
+						<span class="msg-text-color-2">{{msg.score }}分</span>
 					</view>
 				</view>
 			</view>
 
 			<!-- 第二行：系统通知 -->
 			<view class="marquee-row">
-				<view class="marquee-content" style="animation-duration: 140s;">
+				<view class="marquee-content" ref="row2">
 					<view class="marquee-item" v-for="(msg, index) in list2" :key="index">
 						<image class="icon" src="/static/guide/ic_broadcast.png"></image>
-						<text class="msg">{{ msg.userName }}</text>
+						<span class="msg-text-color-1">恭喜</span>
+						<span class="msg-text-color-2">「{{ msg.userName }}」</span>
+						<span class="msg-text-color-1">模拟考试 </span>
+						<span class="msg-text-color-2">{{msg.score }}分</span>
 					</view>
 					<!-- 复制一份 -->
 					<view class="marquee-item" v-for="(msg, index) in list2" :key="index + list2.length">
 						<image class="icon" src="/static/guide/ic_broadcast.png"></image>
-						<text class="msg">{{ msg.userName }}</text>
+						<span class="msg-text-color-1">恭喜</span>
+						<span class="msg-text-color-2">「{{ msg.userName }}」</span>
+						<span class="msg-text-color-1">模拟考试 </span>
+						<span class="msg-text-color-2">{{msg.score }}分</span>
 					</view>
 				</view>
 			</view>
@@ -98,6 +109,7 @@
 	export default {
 		data() {
 			return {
+				marqueeSpeedSet: false, // 新增标志位
 				swiperList: [{
 						image: '/static/guide/swiper_km1.png'
 					},
@@ -148,6 +160,15 @@
 				]
 			};
 		},
+		mounted() {
+			this.$nextTick(() => {
+				if (!this.marqueeSpeedSet) {
+					this.adjustMarqueeSpeed('row1', this.list1);
+					this.adjustMarqueeSpeed('row2', this.list2);
+					this.marqueeSpeedSet = true;
+				}
+			});
+		},
 		onLoad() {
 			let params = {
 
@@ -177,6 +198,38 @@
 			},
 			goBack() {
 				uni.navigateBack();
+			},
+			adjustMarqueeSpeed(refName, list) {
+				const row = this.$refs[refName];
+				if (!row) return;
+
+				// ✅ 关键：使用 row.$el 获取原生 DOM 元素
+				const rowElement = row.$el || row; // 兼容某些平台直接是 DOM 的情况
+
+				// 现在可以正常使用 querySelectorAll
+				const items = rowElement.querySelectorAll('.marquee-item');
+				if (!items.length) return;
+
+				// 计算第一份内容的总宽度
+				const totalWidth = Array.from(items)
+					.slice(0, list.length)
+					.reduce((sum, el) => sum + el.offsetWidth, 0);
+
+				// 获取 margin-right
+				const firstItem = items[0];
+				const style = getComputedStyle(firstItem);
+				const marginRight = parseFloat(style.marginRight) || 0;
+				const spacingWidth = marginRight * (list.length - 1);
+
+				const contentWidth = totalWidth + spacingWidth;
+
+				// 滚动速度（像素/秒）
+				const scrollSpeed = 25000;
+				const duration = contentWidth / scrollSpeed;
+				console.log("duration:" + duration + ",contentWidth:" + contentWidth)
+
+				// 设置 CSS 变量
+				rowElement.style.setProperty('--duration', `${Math.max(8, duration)}s`);
 			}
 		}
 	}
@@ -339,6 +392,7 @@
 		border-radius: 12rpx;
 		overflow: hidden;
 		margin: 0rpx 24rpx;
+		margin-top: 20rpx;
 		// background: #eee;
 	}
 
@@ -477,19 +531,22 @@
 	}
 
 	.double-marquee-container {
+		// height: 55rpx;
 		width: 100%;
 		overflow: hidden;
 		background-color: #fff;
 		border-radius: 12px;
 		// box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-		margin: 10px 0;
+		display: flex;
+		flex-direction: column;
+		gap: 15rpx; // 两行之间的间距，防止重叠
 	}
 
 	.marquee-row {
-		height: 44px;
+		// height: 44px;
 		display: flex;
 		align-items: center;
-		padding: 0 12px;
+		// padding: 0 12rpx;
 		background-color: #f8f9fa;
 		// border-bottom: 1px solid #e9ecef;
 
@@ -498,11 +555,11 @@
 		}
 
 		&:first-child {
-			border-radius: 12px 12px 0 0;
+			border-radius: 12rpx 12rpx 0 0;
 		}
 
 		&:last-child {
-			border-radius: 0 0 12px 12px;
+			border-radius: 0 0 12rpx 12rpx;
 		}
 	}
 
@@ -530,12 +587,12 @@
 		flex-shrink: 0;
 		display: flex;
 		align-items: center;
-		margin-right: 30px;
-		padding: 6px 14px;
+		margin-right: 60rpx;
+		padding: 0rpx 14rpx;
 		// background-color: #e3f2fd;
 		background: linear-gradient(to right, #FFEEC8, #FFFCF7);
 		border-radius: 22px;
-		font-size: 14px;
+		font-size: 26rpx;
 		color: #1976d2;
 
 		.icon {
@@ -545,7 +602,14 @@
 			font-size: 16px;
 		}
 
-		.msg {
+		.msg {}
+
+		.msg-text-color-1 {
+			color: #000000CC;
+		}
+
+		.msg-text-color-2 {
+			color: #000000;
 			font-weight: 500;
 		}
 	}
