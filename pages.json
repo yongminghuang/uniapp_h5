@@ -8,7 +8,7 @@
 			"path": "pages/index/learn_guide",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": true,
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 		}

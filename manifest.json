@@ -76,6 +76,10 @@
 	},
 	"vueVersion": "2",
 	"h5": {
-		"title": "驾考指南"
+		"title": "驾考指南",
+		"router": {
+			"base": "./",
+			"mode": "hash"
+		}
 	}
 }

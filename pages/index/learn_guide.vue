@@ -81,31 +81,35 @@
 		<!-- 功能卡片 -->
 		<view class="card-list">
 			<!-- 技巧练题 -->
-			<view class="card-item">
+			<view class="card-item" @click="toSkillPage()">
 				<image class="card-item-image" src="/static/guide/bg_skill.png" mode="widthFix"></image>
 
 			</view>
 
 			<!-- 直播讲题 -->
-			<view class="card-item">
+			<view class="card-item" @click="toLivePage()">
 				<image class="card-item-image" src="/static/guide/bg_live.png" mode="widthFix"></image>
 			</view>
 
 			<!-- 模拟真实考场 -->
-			<view class="card-item">
+			<view class="card-item" @click="toMkExamPage()">
 				<image class="card-item-image" src="/static/guide/bg_exam.png" mode="widthFix"></image>
 
 			</view>
 		</view>
 
 		<!-- 底部会员引导 -->
-		<view class="footer-banner">
+		<view class="footer-banner" @click="toOpenVipPage()">
 			<text class="footer-text">欢迎您加入会员，开启一段专属的学习之旅！</text>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		callNative
+	} from '../../common/native';
+
 	export default {
 		data() {
 			return {
@@ -230,7 +234,19 @@
 
 				// 设置 CSS 变量
 				rowElement.style.setProperty('--duration', `${Math.max(8, duration)}s`);
-			}
+			},
+			toOpenVipPage() {
+				callNative('toOpenVipPage')
+			},
+			toLivePage() {
+				callNative('toLivePage')
+			},
+			toSkillPage() {
+				callNative('toSkillPage')
+			},
+			toMkExamPage() {
+				callNative('toTrueMockExamPage')
+			},
 		}
 	}
 </script>
