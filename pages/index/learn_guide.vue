@@ -30,30 +30,30 @@
 		<view class="double-marquee-container">
 			<!-- 第一行：恭喜消息 -->
 			<view class="marquee-row">
-				<view class="marquee-content" style="animation-duration: 15s;">
+				<view class="marquee-content" style="animation-duration: 120s;">
 					<view class="marquee-item" v-for="(msg, index) in list1" :key="index">
 						<image class="icon" src="/static/guide/ic_broadcast.png"></image>
-						<text class="msg">{{ msg }}</text>
+						<text class="msg">{{ msg.userName }}</text>
 					</view>
 					<!-- 复制一份，实现无缝 -->
 					<view class="marquee-item" v-for="(msg, index) in list1" :key="index + list1.length">
 						<image class="icon" src="/static/guide/ic_broadcast.png"></image>
-						<text class="msg">{{ msg }}</text>
+						<text class="msg">{{ msg.userName }}</text>
 					</view>
 				</view>
 			</view>
 
 			<!-- 第二行：系统通知 -->
 			<view class="marquee-row">
-				<view class="marquee-content" style="animation-duration: 18s;">
+				<view class="marquee-content" style="animation-duration: 140s;">
 					<view class="marquee-item" v-for="(msg, index) in list2" :key="index">
 						<image class="icon" src="/static/guide/ic_broadcast.png"></image>
-						<text class="msg">{{ msg }}</text>
+						<text class="msg">{{ msg.userName }}</text>
 					</view>
 					<!-- 复制一份 -->
 					<view class="marquee-item" v-for="(msg, index) in list2" :key="index + list2.length">
 						<image class="icon" src="/static/guide/ic_broadcast.png"></image>
-						<text class="msg">{{ msg }}</text>
+						<text class="msg">{{ msg.userName }}</text>
 					</view>
 				</view>
 			</view>
@@ -107,18 +107,64 @@
 				],
 				current: 0, // 当前显示的轮播图索引
 				// 第一行：恭喜类消息
-				list1: [
-					'恭喜「张三」模拟考试 98分！',
-					'恭喜「李四」全科通过！',
-					'恭喜「王五」刷题满1000道！'
+				list1: [{
+						"userName": "朝霞云彩",
+						"score": 99
+					},
+					{
+						"userName": "凹凸曼",
+						"score": 97
+					},
+					{
+						"userName": "XYD",
+						"score": 96
+					}
 				],
 				// 第二行：通知类消息
-				list2: [
-					'新题库已上线，快去练习！',
-					'周末直播课时间调整通知',
-					'会员积分即将到期，请及时使用'
+				list2: [{
+						"userName": "朝霞云彩",
+						"score": 99
+					},
+					{
+						"userName": "凹凸曼",
+						"score": 97
+					},
+					{
+						"userName": "XYD",
+						"score": 96
+					},
+					{
+						"userName": "凉然、鎖心碎",
+						"score": 96
+					},
+					{
+						"userName": "高原凌峰",
+						"score": 96
+					},
+					{
+						"userName": "永恒",
+						"score": 95
+					},
 				]
 			};
+		},
+		onLoad() {
+			let params = {
+
+			}
+			let that = this;
+			this.$u.api.getBullect(params)
+				.then(res => {
+					// that.videoList = [];
+					if (res.code == 200) {
+						var list = res.body;
+						var length = list.length;
+						that.list1 = list.splice(0, length / 2);
+						that.list2 = list.splice(-length / 2);
+
+					}
+
+				})
 		},
 		onReady() {
 			uni.setNavigationBarTitle({
@@ -126,6 +172,9 @@
 			});
 		},
 		methods: {
+			getObject() {
+
+			},
 			goBack() {
 				uni.navigateBack();
 			}
