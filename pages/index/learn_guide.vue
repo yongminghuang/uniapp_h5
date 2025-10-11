@@ -1,5 +1,5 @@
 <template>
-	<view class="container">
+	<view :class=" isShowBottom ? `container`:`container2`">
 		<!-- 顶部导航 -->
 		<!-- 	<view class="header">
 			<view class="back" @click="goBack">
@@ -11,7 +11,7 @@
 		<!-- 欢迎语 -->
 		<view class="welcome">
 			<image class="welcome_bg" src="/static/guide/top_bg.png"></image>
-			<text>亲爱的学员，您好呀！专属你的驾考学习指南已上线，轻松拿证，偶人驾考与您一路相伴！</text>
+			<text>亲爱的学员，您好呀！专属你的驾考学习指南已上线，轻松拿证，懒人驾考与您一路相伴！</text>
 		</view>
 
 		<!-- 快速学习流程 -->
@@ -73,9 +73,7 @@
 
 		<!-- 视频播放器 -->
 		<view class="video-container">
-			<video class="video-bg" id="myVideo"
-				src="https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-720p.mp4"
-				controls></video>
+			<video class="video-bg" id="myVideo" src="/static/guide/guide.mp4" controls></video>
 		</view>
 
 		<!-- 功能卡片 -->
@@ -99,7 +97,7 @@
 		</view>
 
 		<!-- 底部会员引导 -->
-		<view class="footer-banner" @click="toOpenVipPage()">
+		<view class="footer-banner" @click="toOpenVipPage()" v-if="isShowBottom">
 			<text class="footer-text">欢迎您加入会员，开启一段专属的学习之旅！</text>
 		</view>
 	</view>
@@ -113,6 +111,7 @@
 	export default {
 		data() {
 			return {
+				isShowBottom: false,
 				marqueeSpeedSet: false, // 新增标志位
 				swiperList: [{
 						image: '/static/guide/swiper_km1.png'
@@ -165,21 +164,46 @@
 			};
 		},
 		mounted() {
-			this.$nextTick(() => {
-				if (!this.marqueeSpeedSet) {
+			window.onload = () => {
+				this.$nextTick(() => {
 					this.adjustMarqueeSpeed('row1', this.list1);
 					this.adjustMarqueeSpeed('row2', this.list2);
-					this.marqueeSpeedSet = true;
-				}
-			});
+				});
+			};
+			// this.$nextTick(() => {
+			// 	if (!this.marqueeSpeedSet) {
+			// 		this.adjustMarqueeSpeed('row1', this.list1);
+			// 		this.adjustMarqueeSpeed('row2', this.list2);
+			// 		this.marqueeSpeedSet = true;
+			// 	}
+			// });
 		},
-		onLoad() {
+		created() {
+			let that = this;
+			this.isShowBottom = option.showBottomOpenVip == "1"
+			// window.showBottomOpenVip = (str) => {
+			// 	alert("str:" + str)
+			// 	console.log("iOS 主动推送的字符串：", str);
+			// 	that.isShowBottom = str == "1"
+
+			// };
+		},
+		onLoad(option) {
+			let that = this;
+			this.isShowBottom = option.showBottomOpenVip == "1"
+			window.showBottomOpenVip = (str) => {
+				// alert("str:" + str)
+				console.log("iOS 主动推送的字符串：", str);
+				that.isShowBottom = str == "1"
+
+			};
 			let params = {
 
 			}
-			let that = this;
+
 			this.$u.api.getBullect(params)
 				.then(res => {
+					// alert("res:" + res)
 					// that.videoList = [];
 					if (res.code == 200) {
 						var list = res.body;
@@ -256,6 +280,12 @@
 		background-color: #f8f9fa;
 		/* padding: 0 20rpx; */
 		padding-bottom: 90rpx;
+	}
+
+	.container2 {
+		background-color: #f8f9fa;
+		/* padding: 0 20rpx; */
+		padding-bottom: 30rpx;
 	}
 
 	.header {
@@ -416,6 +446,7 @@
 	.video-bg {
 		width: 100%;
 		height: 100%;
+		object-fit: cover;
 	}
 
 	.video-overlay {
