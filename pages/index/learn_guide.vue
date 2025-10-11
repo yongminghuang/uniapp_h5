@@ -95,7 +95,7 @@
 				isShowBottom: false,
 				marqueeAnimId1: null,
 				marqueeAnimId2: null,
-				marqueeSpeed: 2, // 控制滚动速度（像素/帧）
+				marqueeSpeed: 0.8, // 控制滚动速度（像素/帧）
 				swiperList: [{
 						image: '/static/guide/swiper_km1.png'
 					},
@@ -109,32 +109,24 @@
 						"score": 99
 					},
 					{
-						"userName": "凹凸曼",
+						"userName": "凉然、鎖心碎",
 						"score": 97
 					},
 					{
-						"userName": "XYD",
+						"userName": "高原凌峰",
 						"score": 96
 					}
 				],
 				list2: [{
-						"userName": "朝霞云彩",
-						"score": 99
+						"userName": "梦幻星辰",
+						"score": 95
 					},
 					{
-						"userName": "凹凸曼",
-						"score": 97
-					},
-					{
-						"userName": "XYD",
+						"userName": "红尘过客",
 						"score": 96
 					},
 					{
-						"userName": "凉然、鎖心碎",
-						"score": 96
-					},
-					{
-						"userName": "高原凌峰",
+						"userName": "无可替玳",
 						"score": 96
 					},
 					{
