@@ -147,6 +147,11 @@
 		},
 		onLoad(option) {
 			this.isShowBottom = option.showBottomOpenVip === "1";
+			if (process.env.VUE_APP_PLATFORM === 'h5') {
+				const urlParams = new URLSearchParams(window.location.search);
+				this.isShowBottom = urlParams.get('showBottomOpenVip') === "1"; // 返回字符串 "0"
+			}
+
 			window.showBottomOpenVip = (str) => {
 				console.log("iOS 主动推送的字符串：", str);
 				this.isShowBottom = str === "1";
