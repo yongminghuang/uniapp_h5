@@ -176,7 +176,7 @@
 		},
 		onReady() {
 			uni.setNavigationBarTitle({
-				title: '驾考指南'
+				title: '驾考学习指南'
 			});
 		},
 		beforeDestroy() {

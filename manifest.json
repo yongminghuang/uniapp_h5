@@ -1,5 +1,5 @@
 {
-	"name": "驾考指南",
+	"name": "驾考学习指南",
 	"appid": "__UNI__AB97AD0",
 	"description": "",
 	"versionName": "0.0.1",
@@ -76,7 +76,7 @@
 	},
 	"vueVersion": "2",
 	"h5": {
-		"title": "驾考指南",
+		"title": "驾考学习指南",
 		"router": {
 			"base": "./",
 			"mode": "hash"
