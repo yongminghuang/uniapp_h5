@@ -164,12 +164,6 @@
 			};
 		},
 		mounted() {
-			window.onload = () => {
-				this.$nextTick(() => {
-					this.adjustMarqueeSpeed('row1', this.list1);
-					this.adjustMarqueeSpeed('row2', this.list2);
-				});
-			};
 			// this.$nextTick(() => {
 			// 	if (!this.marqueeSpeedSet) {
 			// 		this.adjustMarqueeSpeed('row1', this.list1);
@@ -189,6 +183,12 @@
 			// };
 		},
 		onLoad(option) {
+			window.onload = () => {
+				this.$nextTick(() => {
+					this.adjustMarqueeSpeed('row1', this.list1);
+					this.adjustMarqueeSpeed('row2', this.list2);
+				});
+			};
 			let that = this;
 			this.isShowBottom = option.showBottomOpenVip == "1"
 			window.showBottomOpenVip = (str) => {
