@@ -30,7 +30,11 @@ export const callNative = (method, data) => {
 					window.Jx885WebApi.toTrueMockExamPage();
 					break;
 				case 'WebViewFinish':
-					return window.Jx885WebApi.WebViewFinish();
+					window.Jx885WebApi.WebViewFinish();
+					break;
+				case 'onGuideVideoPlay':
+					window.Jx885WebApi.onGuideVideoPlay();
+					break;
 			}
 		}
 	} else if (isIOS()) {

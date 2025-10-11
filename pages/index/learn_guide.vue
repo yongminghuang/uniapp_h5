@@ -61,7 +61,8 @@
 
 		<!-- 视频播放器 -->
 		<view class="video-container">
-			<video class="video-bg" id="myVideo" src="/static/guide/guide.mp4" controls></video>
+			<video class="video-bg" id="myVideo" src="/static/guide/guide.mp4" @play="onGuideVideoPlay"
+				controls></video>
 		</view>
 
 		<!-- 功能卡片 -->
@@ -247,6 +248,9 @@
 			},
 			toSkillPage() {
 				callNative('toSkillPage');
+			},
+			onGuideVideoPlay() {
+				callNative('onGuideVideoPlay');
 			},
 			toMkExamPage() {
 				callNative('toTrueMockExamPage');
