@@ -350,6 +350,7 @@
 		align-items: center;
 		margin-right: 60rpx;
 		padding: 0 14rpx;
+		height: 50rpx;
 		background: linear-gradient(to right, #FFEEC8, #FFFCF7);
 		border-radius: 22px;
 		font-size: 26rpx;
@@ -376,8 +377,8 @@
 		width: calc(100% - 48rpx);
 		height: 300rpx;
 		border-radius: 12rpx;
-		margin: 0 24rpx;
-		margin-top: 20rpx;
+		margin: 30rpx 24rpx 0rpx 24rpx;
+
 	}
 
 	.video-bg {
