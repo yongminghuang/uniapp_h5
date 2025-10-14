@@ -62,6 +62,7 @@
 		<!-- 视频播放器 -->
 		<view class="video-container">
 			<video class="video-bg" id="myVideo" src="/static/guide/guide.mp4" @play="onGuideVideoPlay"
+				poster="https://img.jx885.com/lrjk/html/guide/static/guide/guide.mp4?x-oss-process=video/snapshot,t_1,f_jpg,w_1980,h_1110,m_fast"
 				controls></video>
 		</view>
 
@@ -250,6 +251,7 @@
 				callNative('toSkillPage');
 			},
 			onGuideVideoPlay() {
+				alert("onGuideVideoPlay")
 				callNative('onGuideVideoPlay');
 			},
 			toMkExamPage() {
@@ -374,17 +376,28 @@
 
 	// ===== 其他样式 =====
 	.video-container {
-		width: calc(100% - 48rpx);
-		height: 300rpx;
-		border-radius: 12rpx;
-		margin: 30rpx 24rpx 0rpx 24rpx;
-
+		// width: 750rpx;
+		// height: 409.10rpx;
+		// padding-bottom: 133.33%;
+		width: 100%;
+		height: 0;
+		padding-bottom: 56.25%;
+		/* 16:9 宽高比 */
+		/* 16:9 宽高比，可根据需要调整 */
+		position: relative;
+		// border-radius: 12rpx;
+		overflow: hidden;
+		margin: 30rpx 0 0 0;
 	}
 
 	.video-bg {
+		position: absolute;
+		top: 0;
+		left: 0;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		/* 关键：铺满容器，裁剪多余部分 */
 	}
 
 	.card-list {
