@@ -90,6 +90,9 @@
 	import {
 		callNative
 	} from '../../common/native';
+	import {
+		appGetHttpAddress
+	} from '../../common/util';
 
 	export default {
 		data() {
@@ -158,23 +161,55 @@
 				console.log("iOS 主动推送的字符串：", str);
 				this.isShowBottom = str === "1";
 			};
-
+			uni.showLoading({
+				title: "加载中",
+				mask: true,
+			});
 			// 模拟异步获取数据（根据你的实际接口调整）
 			let params = {}
-			this.$u.api.getBullect(params).then(res => {
-				if (res.code == 200) {
-					const list = res.body;
-					const len = list.length;
-					this.list1 = list.slice(0, len / 2);
-					this.list2 = list.slice(-len / 2);
-					this.$nextTick(() => {
-						setTimeout(() => {
-							this.startMarquee('marqueeRow1', this.list1);
-							this.startMarquee('marqueeRow2', this.list2);
-						}, 100);
-					});
+			uni.request({
+				url: appGetHttpAddress() + '/lrjkapp/handBook/queryBulletChat',
+				method: 'GET',
+				data: params,
+				timeout: 3000, // ✅ 这里设置超时时间为 3 秒
+				success: (res) => {
+					if (res.code == 200) {
+						const list = res.body;
+						const len = list.length;
+						this.list1 = list.slice(0, len / 2);
+						this.list2 = list.slice(-len / 2);
+						this.$nextTick(() => {
+							setTimeout(() => {
+								this.startMarquee('marqueeRow1', this.list1);
+								this.startMarquee('marqueeRow2', this.list2);
+							}, 100);
+						});
+					}
+				},
+				fail: (err) => {
+
+				},
+				complete: () => {
+					uni.hideLoading();
 				}
 			});
+			// this.$u.api.getBullect(params).then(res => {
+			// 	if (res.code == 200) {
+			// 		const list = res.body;
+			// 		const len = list.length;
+			// 		this.list1 = list.slice(0, len / 2);
+			// 		this.list2 = list.slice(-len / 2);
+			// 		this.$nextTick(() => {
+			// 			setTimeout(() => {
+			// 				this.startMarquee('marqueeRow1', this.list1);
+			// 				this.startMarquee('marqueeRow2', this.list2);
+			// 			}, 100);
+			// 		});
+			// 	}
+			// }).catch(err => {
+			// 	console.log("err:" + err);
+			// 	uni.hideLoading();
+			// });;
 		},
 		onReady() {
 			uni.setNavigationBarTitle({
@@ -251,7 +286,6 @@
 				callNative('toSkillPage');
 			},
 			onGuideVideoPlay() {
-				alert("onGuideVideoPlay")
 				callNative('onGuideVideoPlay');
 			},
 			toMkExamPage() {
