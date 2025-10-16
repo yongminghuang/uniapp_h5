@@ -61,7 +61,7 @@
 
 		<!-- 视频播放器 -->
 		<view class="video-container">
-			<video class="video-bg" id="myVideo" src="/static/guide/guide.mp4" @play="onGuideVideoPlay"
+			<video class="video-bg" id="myVideo" src="/static/guide/guide.mp4" preload="auto" @play="onGuideVideoPlay"
 				poster="https://img.jx885.com/lrjk/html/guide/static/guide/guide.mp4?x-oss-process=video/snapshot,t_1,f_jpg,w_1980,h_1110,m_fast"
 				controls></video>
 		</view>
