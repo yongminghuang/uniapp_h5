@@ -251,7 +251,6 @@
 				callNative('toSkillPage');
 			},
 			onGuideVideoPlay() {
-				alert("onGuideVideoPlay")
 				callNative('onGuideVideoPlay');
 			},
 			toMkExamPage() {
