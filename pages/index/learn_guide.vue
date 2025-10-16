@@ -8,7 +8,7 @@
 
 		<!-- 快速学习流程 -->
 		<view class="quick-learning">
-			<swiper class="swiper_wrap" :current="current" indicator-dots="true" autoplay="true">
+			<swiper class="swiper_wrap" :current="current" indicator-dots="true" autoplay="true" circular="true">
 				<swiper-item v-for="(item, index) in swiperList" :key="index">
 					<image class="swiper-item-image" :src="item.image" mode="scaleToFill" />
 				</swiper-item>
