@@ -61,9 +61,10 @@
 
 		<!-- 视频播放器 -->
 		<view class="video-container">
-			<video class="video-bg" id="myVideo" src="/static/guide/guide.mp4" preload="auto" @play="onGuideVideoPlay"
+			<video class="video-bg" id="myVideo" src="https://img.jx885.com/lrjk/html/guide/static/guide/guide.mp4"
+				preload="auto" @play="onGuideVideoPlay"
 				poster="https://img.jx885.com/lrjk/html/guide/static/guide/guide.mp4?x-oss-process=video/snapshot,t_1,f_jpg,w_1980,h_1110,m_fast"
-				controls></video>
+				controls autoplay :muted="muted2"></video>
 		</view>
 
 		<!-- 功能卡片 -->
@@ -94,6 +95,7 @@
 	export default {
 		data() {
 			return {
+				muted2: true,
 				isShowBottom: false,
 				marqueeAnimId1: null,
 				marqueeAnimId2: null,
@@ -148,6 +150,10 @@
 			});
 		},
 		onLoad(option) {
+			let that = this;
+			window.addEventListener('touchstart', () => {
+				that.muted2 = false
+			});
 			this.isShowBottom = option.showBottomOpenVip === "1";
 			if (process.env.VUE_APP_PLATFORM === 'h5') {
 				const urlParams = new URLSearchParams(window.location.search);
@@ -251,7 +257,9 @@
 				callNative('toSkillPage');
 			},
 			onGuideVideoPlay() {
+				console.log("====onGuideVideoPlay")
 				callNative('onGuideVideoPlay');
+
 			},
 			toMkExamPage() {
 				callNative('toTrueMockExamPage');

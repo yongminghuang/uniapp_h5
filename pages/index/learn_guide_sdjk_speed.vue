@@ -3,7 +3,7 @@
 		<!-- 欢迎语 -->
 		<view class="welcome">
 			<image class="welcome_bg" src="/static/guide/top_bg.png"></image>
-			<text>亲爱的学员，您好呀！专属你的驾考学习指南已上线，轻松拿证，懒人驾考与您一路相伴！</text>
+			<text>亲爱的学员，您好呀！专属你的驾考学习指南已上线，轻松拿证，闪电驾考极速版与您一路相伴！</text>
 		</view>
 
 		<!-- 快速学习流程 -->
