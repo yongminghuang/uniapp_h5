@@ -23,16 +23,21 @@
 		</view>
 
 		<!-- 底部按钮 -->
-		<view class="footer-btn" @click="handleUnsealAll">
+		<view class="footer-btn" @click="handleUnsealAll" v-if="!isHideBottom">
 			<text class="footer-btn-text">拆开密卷</text>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		NativeBridge
+	} from '../../common/native.js';
+	const nativeBridge = new NativeBridge();
 	export default {
 		data() {
 			return {
+				isHideBottom: false,
 				scrollList: [{
 						id: 'A',
 						title: '密卷A: 新规智能预测卷',
@@ -51,6 +56,36 @@
 				]
 			};
 		},
+		onLoad(option) {
+			let that = this;
+			// 先读取 uniapp 传递的参数
+			this.isHideBottom = option && (option.isShowBottom === '0' || option.showBottomOpenVip === '0');
+
+			if (process.env.VUE_APP_PLATFORM === 'h5') {
+				// 尝试从 search 中获取
+				const urlParams = new URLSearchParams(window.location.search);
+				let showBottomOpenVip = urlParams.get('showBottomOpenVip') || urlParams.get('isShowBottom');
+
+				// 如果 search 中没有，尝试从 hash 中获取（针对 #/?showBottomOpenVip=1 这种情况）
+				if (!showBottomOpenVip && window.location.hash) {
+					const hashQuery = window.location.hash.split('?')[1];
+					if (hashQuery) {
+						const hashParams = new URLSearchParams(hashQuery);
+						showBottomOpenVip = hashParams.get('showBottomOpenVip') || hashParams.get('isShowBottom');
+					}
+				}
+
+				if (showBottomOpenVip) {
+					this.isHideBottom = showBottomOpenVip === '0';
+				}
+			}
+
+			// 监听原生回调
+			window.showBottomOpenVip = (str) => {
+				console.log("原生推送的 showBottomOpenVip 值：", str);
+				that.isHideBottom = str === "1";
+			};
+		},
 		onReady() {
 			uni.setNavigationBarTitle({
 				title: '考前急救密卷'
@@ -59,13 +94,14 @@
 		methods: {
 			// 拆密卷点击事件（待处理）
 			handleUnsealScroll(item, index) {
+
 				console.log('拆密卷:', item, index);
-				// TODO: 处理单个密卷的拆开逻辑
+				nativeBridge.openSecretPaper(index);
 			},
 			// 拆开密卷点击事件（待处理）
 			handleUnsealAll() {
 				console.log('拆开密卷');
-				// TODO: 处理全部密卷的拆开逻辑
+				nativeBridge.openBottomSecretPaper();
 			}
 		}
 	};

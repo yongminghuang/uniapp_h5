@@ -58,3 +58,43 @@ function isIOS() {
 	const ua = navigator.userAgent.toLowerCase();
 	return ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1;
 }
+
+// 与原生通信的封装类
+export class NativeBridge {
+	constructor() {
+		this.channel = window.Jx885WebApi || (window.webkit && window.webkit.messageHandlers.Jx885WebApi);
+	}
+
+	// 通用调用封装
+	invoke(method, data) {
+		// alert('11：' + typeof window.Jx885WebApi['openBottomSecretPaper'])
+		if (isAndroid() && window.Jx885WebApi && typeof window.Jx885WebApi[method] === 'function') {
+			// alert('handleUnsealScroll21')
+			if (data == undefined) {
+				window.Jx885WebApi[method]();
+			} else {
+				window.Jx885WebApi[method](data);
+			}
+		} else if (isIOS() && window.webkit && window.webkit.messageHandlers.Jx885WebApi) {
+			window.webkit.messageHandlers.Jx885WebApi.postMessage({
+				action: method,
+				data
+			});
+		}
+	}
+
+	// 拆密卷，需传入试卷 ID（数字）
+	openSecretPaper(paperId) {
+
+		if (typeof paperId !== 'number') {
+			console.warn('openSecretPaper 需要数字类型的 paperId');
+			return;
+		}
+		this.invoke('openSecretPaper', paperId);
+	}
+
+	// 拆开底部密卷，无需入参
+	openBottomSecretPaper() {
+		this.invoke('openBottomSecretPaper');
+	}
+}
