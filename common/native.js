@@ -97,4 +97,9 @@ export class NativeBridge {
 	openBottomSecretPaper() {
 		this.invoke('openBottomSecretPaper');
 	}
+
+	// 打开克服页面，无需入参
+	openComeover() {
+		this.invoke('openComeover');
+	}
 }
