@@ -83,7 +83,7 @@
 			// 监听原生回调
 			window.showBottomOpenVip = (str) => {
 				console.log("原生推送的 showBottomOpenVip 值：", str);
-				that.isHideBottom = str === "1";
+				that.isHideBottom = str === "0";
 			};
 		},
 		onReady() {

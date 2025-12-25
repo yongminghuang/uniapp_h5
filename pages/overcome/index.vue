@@ -24,7 +24,7 @@
 		},
 		methods: {
 			handleClickArea() {
-				alert("handleClickArea")
+				// alert("handleClickArea")
 				nativeBridge.openComeover();
 			}
 		}
