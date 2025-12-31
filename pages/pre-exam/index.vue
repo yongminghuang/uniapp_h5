@@ -2,13 +2,14 @@
 	<view class="container">
 		<!-- 顶部标题区域 -->
 		<view class="header-section">
-			<view class="title-top">2025驾考理论·大数据押题密卷</view>
+			<view class="title-top">驾考理论·大数据押题密卷</view>
 			<image class="header-image" src="/static/pre_exam/bg_exam.png" mode="widthFix"></image>
 		</view>
 
 		<!-- 密卷列表 -->
 		<view class="scroll-list">
-			<view class="scroll-item" v-for="(item, index) in scrollList" :key="index">
+			<view class="scroll-item" v-for="(item, index) in scrollList" :key="index"
+				@click="handleUnsealScroll(item, index)">
 				<view class="scroll-icon-wrapper">
 					<image class="scroll-icon" src="/static/pre_exam/ic_exam.png" mode="aspectFit"></image>
 				</view>
@@ -16,7 +17,7 @@
 					<view class="scroll-title">{{ item.title }}</view>
 					<view class="scroll-desc">{{ item.desc }}</view>
 				</view>
-				<view class="scroll-btn" @click="handleUnsealScroll(item, index)">
+				<view class="scroll-btn">
 					<text class="btn-text">拆密卷</text>
 				</view>
 			</view>
@@ -87,9 +88,7 @@
 			};
 		},
 		onReady() {
-			uni.setNavigationBarTitle({
-				title: '考前急救密卷'
-			});
+
 		},
 		methods: {
 			// 拆密卷点击事件（待处理）
@@ -191,7 +190,7 @@
 		font-size: 24rpx;
 		color: #C5A06E;
 		margin-top: 15rpx;
-		line-height: 23rpx;
+		line-height: 29rpx;
 	}
 
 	.scroll-btn {

@@ -18,9 +18,7 @@
 			let that = this;
 		},
 		onReady() {
-			uni.setNavigationBarTitle({
-				title: '克服'
-			});
+
 		},
 		methods: {
 			handleClickArea() {
