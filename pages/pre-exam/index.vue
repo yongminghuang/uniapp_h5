@@ -18,7 +18,7 @@
 					<view class="scroll-desc">{{ item.desc }}</view>
 				</view>
 				<view class="scroll-btn">
-					<text class="btn-text">拆密卷</text>
+					<text class="btn-text">{{ btnText }}</text>
 				</view>
 			</view>
 		</view>
@@ -39,6 +39,7 @@
 		data() {
 			return {
 				isHideBottom: false,
+				btnText: '拆开密卷',
 				scrollList: [{
 						id: 'A',
 						title: '密卷A: 新规智能预测卷',
@@ -81,10 +82,14 @@
 				}
 			}
 
+			// 同步按钮文字
+			this.btnText = this.isHideBottom ? '查看密卷' : '拆开密卷';
+
 			// 监听原生回调
 			window.showBottomOpenVip = (str) => {
 				console.log("原生推送的 showBottomOpenVip 值：", str);
 				that.isHideBottom = str === "0";
+				that.btnText = that.isHideBottom ? '查看密卷' : '拆开密卷';
 			};
 		},
 		onReady() {
@@ -194,7 +199,6 @@
 	}
 
 	.scroll-btn {
-		width: 110rpx;
 		height: 47rpx;
 		background: #fff;
 		border: 1rpx solid #A82C1B;
@@ -203,6 +207,8 @@
 		align-items: center;
 		justify-content: center;
 		flex-shrink: 0;
+		padding-left: 15rpx;
+		padding-right: 15rpx;
 	}
 
 	.btn-text {
@@ -211,6 +217,7 @@
 		font-size: 29rpx;
 		color: #A1121A;
 		line-height: 23rpx;
+		white-space: nowrap;
 	}
 
 	.footer-btn {
