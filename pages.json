@@ -3,11 +3,10 @@
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [
-		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/overcome/index",
+			"path": "pages/spee_500/index",
 			"style": {
-				"navigationBarTitleText": "考前急救密卷",
+				"navigationBarTitleText": "速成500题",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
@@ -15,27 +14,12 @@
 		{
 			"path": "pages/pre-exam/index",
 			"style": {
-				"navigationBarTitleText": "考前急救密卷",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/learn_guide_sdjk_speed",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/index/learn_guide",
-			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "考前密卷",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 		}
+		
 	],
 
 	"globalStyle": {
