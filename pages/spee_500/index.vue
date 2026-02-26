@@ -4,55 +4,26 @@
 		<image class="bg-image" src="/static/speed/bg_speed.png" mode="aspectFill"></image>
 
 		<!-- 顶部返回按钮 -->
-		<image
-			class="btn-back"
-			src="/static/speed/ic_back.png"
-			mode="aspectFit"
-			@click="handleBack"
-		></image>
+		<image class="btn-back" src="/static/speed/ic_back.png" mode="aspectFit" @click="handleBack"></image>
 
 		<!-- 标题区域 -->
-		<image
-			class="img-2000"
-			src="/static/speed/ic_2000.png"
-			mode="widthFix"
-		></image>
-		<image
-			class="img-use-500"
-			src="/static/speed/ic_use_500.png"
-			mode="widthFix"
-		></image>
+		<image class="img-2000" src="/static/speed/ic_2000.png" mode="widthFix"></image>
+		<image class="img-use-500" src="/static/speed/ic_use_500.png" mode="widthFix"></image>
 
 		<!-- 顶部两枚标签：技巧归类 / 秒选答案 -->
-		<image
-			class="tab-group"
-			src="/static/speed/ic_group.png"
-			mode="widthFix"
-		></image>
-		<image
-			class="tab-answer"
-			src="/static/speed/ic_answer.png"
-			mode="widthFix"
-		></image>
+		<image class="tab-group" src="/static/speed/ic_group.png" mode="widthFix"></image>
+		<image class="tab-answer" src="/static/speed/ic_answer.png" mode="widthFix"></image>
 
 		<!-- 列表容器 -->
 		<view class="list-wrapper">
-			<view
-				class="list-item"
-				v-for="(item, index) in list"
-				:key="index"
-			>
-				<text class="list-title">{{ item.title + item.desc }}</text>
+			<view class="list-item" v-for="(item, index) in list" :key="index" @click="handleItemClick(index)">
+				<text class="list-title">{{ item }}</text>
 			</view>
 		</view>
 
 		<!-- 底部解锁按钮 -->
 		<view class="bottom-area">
-			<image
-				class="refund-tag"
-				src="/static/speed/ic_refund.png"
-				mode="widthFix"
-			></image>
+			<image class="refund-tag" src="/static/speed/ic_refund.png" mode="widthFix"></image>
 			<view class="unlock-btn" @click="handleUnlock">
 				<text class="unlock-text">立即解锁速成500题</text>
 			</view>
@@ -61,44 +32,34 @@
 </template>
 
 <script>
+	import {
+		callNative
+	} from '@/common/native.js';
+
 	export default {
 		data() {
 			return {
 				list: [
-					{
-						title: '100题：交通标志类',
-						desc: '看形状颜色，秒辨含义'
-					},
-					{
-						title: '100题：扣分罚款类',
-						desc: '抓数字关键词，不混淆'
-					},
-					{
-						title: '100题：安全行车类',
-						desc: '“安全优先”原则'
-					},
-					{
-						title: '100题：速度距离类',
-						desc: '记死“特殊数值”'
-					},
-					{
-						title: '100题：答题通用技巧',
-						desc: '3 个“必对”原则，蒙题也准'
-					}
+
 				]
+			};
+		},
+		mounted() {
+			// 暴露给原生调用的方法：window.setSpeedList(['xxx', 'yyy', ...])
+			window.setSpeedList = (nativeList) => {
+				if (Array.isArray(nativeList)) {
+					this.list = nativeList.map((item) => String(item));
+				}
 			};
 		},
 		methods: {
 			handleBack() {
-				// 返回上一页
-				uni.navigateBack({
-					fail() {
-						// 若无上一页则跳回首页
-						uni.reLaunch({
-							url: '/pages/pre-exam/index'
-						});
-					}
-				});
+				// 调用原生 WebViewFinish 方法
+				callNative('WebViewFinish');
+			},
+			handleItemClick(index) {
+				// 调用原生方法，传递 index 数据
+				callNative('onSpeedItemClick', index);
 			},
 			handleUnlock() {
 				// 这里预留点击事件，后续可对接原生或跳转
@@ -139,7 +100,7 @@
 		top: 196rpx;
 		left: 125.33rpx;
 		width: 504rpx;
-	
+
 		z-index: 3;
 	}
 
@@ -250,4 +211,3 @@
 		color: #ff3c00;
 	}
 </style>
-
