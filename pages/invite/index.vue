@@ -56,11 +56,11 @@
 					<text class="amount-total">{{ totalAmount }}</text>
 					<text class="amount-total-label">累计收益（元）</text>
 
-					<text class="amount-month">{{ monthAmount }}</text>
-					<text class="amount-last-month">{{ lastMonthAmount }}</text>
+					<text class="amount-month" v-if="false">{{ monthAmount }}</text>
+					<text class="amount-last-month" v-if="false">{{ lastMonthAmount }}</text>
 
-					<text class="amount-month-label">本月收益</text>
-					<text class="amount-last-month-label">上月收益</text>
+					<text class="amount-month-label" v-if="false">本月收益</text>
+					<text class="amount-last-month-label" v-if="false">上月收益</text>
 
 					<image class="btn-withdraw" src="/static/invite/btn_withdraw.png" mode="widthFix"
 						@click.stop="handleWithdraw"></image>
@@ -518,7 +518,7 @@
 		position: relative;
 		width: 100%;
 		/* 固定高度略收窄，压缩下方空白区 */
-		height: 380rpx;
+		height: 280rpx;
 	}
 
 	/* 内层大黄块 + 中间横线，模拟原背景图 */
@@ -535,16 +535,16 @@
 		z-index: 0;
 	}
 
-	.invite-summary-inner::after {
-		content: '';
-		position: absolute;
-		left: 74rpx;
-		right: 74rpx;
-		top: 178rpx;
-		height: 2rpx;
-		background-color: #f0c98a;
-		z-index: 0;
-	}
+	// .invite-summary-inner::after {
+	// 	content: '';
+	// 	position: absolute;
+	// 	left: 74rpx;
+	// 	right: 74rpx;
+	// 	top: 178rpx;
+	// 	height: 2rpx;
+	// 	background-color: #f0c98a;
+	// 	z-index: 0;
+	// }
 
 	.amount-total {
 		position: absolute;
@@ -600,7 +600,7 @@
 	.btn-withdraw {
 		position: absolute;
 		left: 94rpx;
-		top: 270rpx;
+		top: 170rpx;
 		width: 504.67rpx;
 		height: 76.67rpx;
 	}
