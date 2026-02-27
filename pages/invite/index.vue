@@ -17,7 +17,8 @@
 
 		<!-- 中间红包区域 -->
 		<view class="middle-wrap" @click="handleMiddleClick">
-			<image class="middle-bg" src="/static/invite/ic_middle.png" mode="aspectFit"></image>
+			<image class="middle-bg" :src="isEnded ? '/static/invite/ic_middle_end.png' : '/static/invite/ic_middle.png'"
+				mode="aspectFit"></image>
 			<view class="invite-code-wrap">
 				<view class="invite-code-arc"></view>
 				<text class="invite-code-text">
@@ -62,16 +63,21 @@
 					<text class="amount-month-label" v-if="false">本月收益</text>
 					<text class="amount-last-month-label" v-if="false">上月收益</text>
 
-					<image class="btn-withdraw" src="/static/invite/btn_withdraw.png" mode="widthFix"
+					<!-- 原图片按钮暂时隐藏 -->
+					<image v-if="false" class="btn-withdraw" src="/static/invite/btn_withdraw.png" mode="widthFix"
 						@click.stop="handleWithdraw"></image>
+					<!-- 新灰色背景文字按钮 -->
+					<view class="btn-withdraw btn-withdraw-gray" @click.stop="handleWithdraw">
+						<text class="btn-withdraw-text">立即提现</text>
+					</view>
 				</view>
 
 				<text class="withdraw-rule-title">提现规则:</text>
 				<text class="withdraw-rule-content">
-					1. 5元即可提现,提现后自动转入微信或支付宝；
-					2. 提现预计24小时左右到账；
-					3. 为优化和提升服务体验,平台近期对提现规则进行更新，
-					具体详见《提现协议》
+					1. 活动结束后，满50元即可提现,提现后自动转入微信或支付宝;
+					2. 提现审核预计20个工作日完成，有疑问可联系客服；
+					3. 为优化和提升服务体验,平台近期对提现规则进行更新,具体详见《活动规则》。
+
 				</text>
 			</view>
 
@@ -106,7 +112,7 @@
 	export default {
 		data() {
 			return {
-				inviteCode: '285X4',
+				inviteCode: '',
 				currentTab: 'invite', // invite | income
 				totalAmount: '0.00',
 				monthAmount: '0.00',
@@ -117,7 +123,8 @@
 				baseUrl: '',
 				authToken: '',
 				activityId: null,
-				activityTimeText: '活动时间:--'
+				activityTimeText: '活动时间:--',
+				isEnded: false
 			};
 		},
 		onLoad(options) {
@@ -157,6 +164,7 @@
 			this.baseUrl = env === 'test' ? 'https://lrjk-test.jx885.com' : 'https://lrjk.jx885.com';
 			console.log('token', token, 'env', env);
 			// 拉取页面所需数据
+			this.fetchInviteCode();
 			this.fetchUserIncome();
 			this.fetchLatestActivity();
 		},
@@ -191,10 +199,43 @@
 					}
 				});
 			},
+			// 获取邀请码
+			fetchInviteCode() {
+				if (!this.baseUrl) return;
+				uni.request({
+					url: this.baseUrl + '/lrjkapp/user/generateInviteCode',
+					method: 'POST',
+					header: this.buildAuthHeader(),
+					success: (res) => {
+						try {
+							// alert(JSON.stringify(res.data))
+							const data = res.data || {};
+							if (data.code === 200) {
+								this.inviteCode = data.body || '';
+							}
+						} catch (e) {
+							console.error('解析邀请码失败', e);
+						}
+					},
+					fail: (err) => {
+						console.error('获取邀请码失败', err);
+					}
+				});
+			},
 			handleRuleClick() {
-				// TODO: 替换为真实 H5 地址
+				console.log("=====handleRuleClick");
+				// 活动规则 H5
+				const url = 'https://img.jx885.com/lrjk/html/invite_friend/event_rules.html';
+				const title = '活动规则';
 				uni.navigateTo({
-					url: '/pages/index/index'
+					url: '/pages/web/web-page',
+					success(res) {
+						// 通过 eventChannel 向被打开页面传送数据
+						res.eventChannel.emit('web-page', {
+							url,
+							title
+						});
+					}
 				});
 			},
 			handleMiddleClick() {
@@ -207,7 +248,12 @@
 				}
 			},
 			handleWithdraw() {
-				// TODO: 提现按钮点击逻辑
+				// 活动结束后提示文案
+				uni.showToast({
+					title: '活动结束后20个工作开放，有问题请联系客服。',
+					icon: 'none',
+					duration: 3000
+				});
 			},
 			switchTab(key) {
 				if (this.currentTab === key) return;
@@ -264,13 +310,15 @@
 					success: (res) => {
 						try {
 							const data = res.data || {};
-							if (data.code === 0 && data.body) {
+							if ((data.code === 200) && data.body) {
 								const body = data.body || {};
 								this.activityId = body.id;
+								// 活动是否结束：false 显示进行中图，true 显示结束图
+								this.isEnded = Boolean(body.isEnded);
 								const start = body.startTime || '';
 								const end = body.endTime || '';
-								const startText = this.formatActivityTime(start);
-								const endText = this.formatActivityTime(end);
+								const startText = start//this.formatActivityTime(start);
+								const endText = end//this.formatActivityTime(end);
 								if (startText && endText) {
 									this.activityTimeText = `活动时间:${startText}~${endText}`;
 								}
@@ -608,6 +656,21 @@
 		top: 170rpx;
 		width: 504.67rpx;
 		height: 76.67rpx;
+	}
+
+	/* 新的灰色提现按钮，复用原位置和尺寸 */
+	.btn-withdraw-gray {
+		background-color: #cccccc;
+		border-radius: 999rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.btn-withdraw-text {
+		font-size: 36rpx;
+		font-weight: bold;
+		color: #98531F;
 	}
 
 	.withdraw-rule-title {

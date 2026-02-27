@@ -20,6 +20,13 @@
 			}
 		},
 		{
+			"path": "pages/web/web-page",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/pre-exam/index",
 			"style": {
 				"navigationBarTitleText": "考前密卷",
