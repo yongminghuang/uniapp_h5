@@ -1,1 +1,1 @@
-export const BUILD_ENV = "develop" //"develop" , "develop2", "trial",""trial"","release","zicai"
+export const BUILD_ENV = "develop2" //"develop" , "develop2", "trial",""trial"","release","zicai"
