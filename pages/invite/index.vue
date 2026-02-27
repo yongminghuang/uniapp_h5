@@ -78,7 +78,8 @@
 			<!-- 我的收益列表 -->
 			<view v-else class="income-list-wrap">
 				<view class="income-card">
-					<scroll-view scroll-y="true" class="income-scroll">
+					<!-- 有数据时展示列表 -->
+					<scroll-view v-if="incomeList && incomeList.length" scroll-y="true" class="income-scroll">
 						<view v-for="(item, index) in incomeList" :key="index" class="income-item">
 							<view class="income-avatar"></view>
 							<view class="income-name-time">
@@ -87,6 +88,10 @@
 							</view>
 						</view>
 					</scroll-view>
+					<!-- 无数据时居中展示占位文案 -->
+					<view v-else class="income-empty">
+						<text class="income-empty-text">暂无邀请人，快去邀请好友吧</text>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -642,6 +647,20 @@
 	.income-scroll {
 		width: 100%;
 		height: 100%;
+	}
+
+	/* 无数据占位：水平垂直居中 */
+	.income-empty {
+		width: 100%;
+		height: 100%;
+		align-items: center;
+		justify-content: center;
+		display: flex;
+	}
+
+	.income-empty-text {
+		color: #c08a4a;
+		font-size: 26rpx;
 	}
 
 	.income-item {
