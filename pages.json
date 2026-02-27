@@ -4,6 +4,14 @@
 	},
 	"pages": [
 		{
+			"path": "pages/invite/index",
+			"style": {
+				"navigationBarTitleText": "邀请好友赚钱",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/spee_500/index",
 			"style": {
 				"navigationBarTitleText": "速成500题",
@@ -19,7 +27,6 @@
 				"navigationStyle": "custom"
 			}
 		}
-		
 	],
 
 	"globalStyle": {

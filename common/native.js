@@ -102,4 +102,13 @@ export class NativeBridge {
 	openComeover() {
 		this.invoke('openComeover');
 	}
+
+	// 邀请分享，将需要给原生的字符串（例如邀请码或分享链接）传递给原生
+	openInviteShare(content) {
+		if (typeof content !== 'string') {
+			console.warn('openInviteShare 需要字符串类型的 content');
+			return;
+		}
+		this.invoke('openInviteShare', content);
+	}
 }
