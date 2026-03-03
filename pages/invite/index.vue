@@ -17,8 +17,9 @@
 
 		<!-- 中间红包区域 -->
 		<view class="middle-wrap" @click="handleMiddleClick">
-			<image class="middle-bg" :src="isEnded ? '/static/invite/ic_middle_end.png' : '/static/invite/ic_middle.png'"
-				mode="aspectFit"></image>
+			<image class="middle-bg"
+				:src="isEnded ? '/static/invite/ic_middle_end.png' : '/static/invite/ic_middle.png'" mode="aspectFit">
+			</image>
 			<view class="invite-code-wrap">
 				<view class="invite-code-arc"></view>
 				<text class="invite-code-text">
@@ -30,7 +31,8 @@
 
 		<!-- Tab 区域 -->
 		<view class="tab-wrap">
-			<view class="tab-item tab-item-left" @click="switchTab('invite')">
+			<!-- 视觉层：不直接绑定点击，点击交由透明命中层处理（避免左侧遮挡导致点击范围过大） -->
+			<view class="tab-item tab-item-left">
 				<image class="tab-bg"
 					:src="currentTab === 'invite' ? '/static/invite/ic_tab_1_sel.png' : '/static/invite/ic_tab_1_unsel.png'"
 					mode="widthFix"></image>
@@ -39,7 +41,7 @@
 				</view>
 			</view>
 
-			<view class="tab-item tab-item-right" @click="switchTab('income')">
+			<view class="tab-item tab-item-right">
 				<image class="tab-bg"
 					:src="currentTab === 'income' ? '/static/invite/ic_tab_1_sel.png' : '/static/invite/ic_tab_1_unsel.png'"
 					mode="widthFix"></image>
@@ -47,12 +49,16 @@
 					<text>我的收益</text>
 				</view>
 			</view>
+
+			<!-- 透明点击命中层：左侧宽度 230rpx（= 360 - 130），右侧从 230rpx 开始覆盖 360rpx -->
+			<view class="tab-hit tab-hit-left" @click="switchTab('invite')"></view>
+			<view class="tab-hit tab-hit-right" @click="switchTab('income')"></view>
 		</view>
 
 		<!-- 内容区 -->
 		<view class="content-wrap">
 			<!-- 我的邀请 -->
-			<view v-if="currentTab === 'invite'" class="invite-summary">
+			<view v-if="currentTab === 'income'" class="invite-summary">
 				<view class="invite-summary-inner">
 					<text class="amount-total">{{ totalAmount }}</text>
 					<text class="amount-total-label">累计收益（元）</text>
@@ -76,8 +82,8 @@
 				<text class="withdraw-rule-content">
 					1. 活动结束后，满50元即可提现,提现后自动转入微信或支付宝;
 					2. 提现审核预计20个工作日完成，有疑问可联系客服；
-					3. 为优化和提升服务体验,平台近期对提现规则进行更新,具体详见《活动规则》。
-
+					3. 为优化和提升服务体验,平台近期对提现规则进行更新,具体详见
+					<text class="withdraw-rule-link" @click.stop="handleRuleClick">《活动规则》</text>。
 				</text>
 			</view>
 
@@ -280,9 +286,12 @@
 							const data = res.data || {};
 							if (data.code === 0 && data.body) {
 								const body = data.body || {};
-								const total = typeof body.totalProfit === 'number' ? body.totalProfit : Number(body.totalProfit || 0);
-								const month = typeof body.monthProfit === 'number' ? body.monthProfit : Number(body.monthProfit || 0);
-								const last = typeof body.cashBalance === 'number' ? body.cashBalance : Number(body.cashBalance || 0);
+								const total = typeof body.totalProfit === 'number' ? body.totalProfit : Number(
+									body.totalProfit || 0);
+								const month = typeof body.monthProfit === 'number' ? body.monthProfit : Number(
+									body.monthProfit || 0);
+								const last = typeof body.cashBalance === 'number' ? body.cashBalance : Number(
+									body.cashBalance || 0);
 
 								this.totalAmount = total.toFixed(2);
 								this.monthAmount = month.toFixed(2);
@@ -317,8 +326,8 @@
 								this.isEnded = Boolean(body.isEnded);
 								const start = body.startTime || '';
 								const end = body.endTime || '';
-								const startText = start//this.formatActivityTime(start);
-								const endText = end//this.formatActivityTime(end);
+								const startText = start //this.formatActivityTime(start);
+								const endText = end //this.formatActivityTime(end);
 								if (startText && endText) {
 									this.activityTimeText = `活动时间:${startText}~${endText}`;
 								}
@@ -358,17 +367,18 @@
 			fetchInviteRecords() {
 				if (!this.baseUrl || this.activityId === null || this.activityId === undefined) return;
 				uni.request({
-					url: this.baseUrl + '/lrjkapp/user/getInviteRecords?activityId=' + encodeURIComponent(this.activityId),
+					url: this.baseUrl + '/lrjkapp/user/getInviteRecords?activityId=' + encodeURIComponent(this
+						.activityId),
 					method: 'POST',
 					header: this.buildAuthHeader(),
 					success: (res) => {
 						try {
 							const data = res.data || {};
-							if (data.code === 0 && Array.isArray(data.body)) {
+							if (data.code === 200 && Array.isArray(data.body)) {
 								const list = data.body.map((item) => {
 									return {
 										name: item.inviteeNickName || '好友',
-										time: item.inviteTime || ''
+										time: "邀请时间：" + item.inviteTime || ''
 									};
 								});
 								this.incomeList = list;
@@ -497,6 +507,8 @@
 	.tab-item {
 		position: relative;
 		height: 120rpx;
+		/* 点击交由 tab-hit 处理，避免视觉层拦截 */
+		pointer-events: none;
 	}
 
 	.tab-item-left {
@@ -543,6 +555,27 @@
 
 	.tab-label-active text {
 		color: #98531f;
+	}
+
+	/* Tab 透明点击命中层（不影响背景布局，只调整点击范围） */
+	.tab-hit {
+		position: absolute;
+		top: 0;
+		height: 120rpx; /* 与 tab-wrap/tab-item 高度保持一致 */
+		z-index: 10; /* 高于 tab-item，确保能接收点击 */
+		background-color: transparent;
+	}
+
+	/* 左侧可点击宽度：230rpx（= 360 - 130） */
+	.tab-hit-left {
+		left: 0;
+		width: 230rpx;
+	}
+
+	/* 右侧可点击区域：从 230rpx 开始覆盖右 Tab（宽 360rpx） */
+	.tab-hit-right {
+		left: 230rpx;
+		width: 360rpx;
 	}
 
 	.content-wrap {
@@ -690,6 +723,13 @@
 		font-size: 23rpx;
 		color: #98531F;
 		line-height: 33rpx;
+	}
+
+	/* 可点击的《活动规则》链接：颜色更深，后续只改这里即可 */
+	.withdraw-rule-link {
+		color: #6b3a12;
+		font-weight: 600;
+		//text-decoration: underline;
 	}
 
 	.income-list-wrap {
