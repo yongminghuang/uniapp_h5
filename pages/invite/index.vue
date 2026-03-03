@@ -34,25 +34,25 @@
 			<!-- 视觉层：不直接绑定点击，点击交由透明命中层处理（避免左侧遮挡导致点击范围过大） -->
 			<view class="tab-item tab-item-left">
 				<image class="tab-bg"
-					:src="currentTab === 'invite' ? '/static/invite/ic_tab_1_sel.png' : '/static/invite/ic_tab_1_unsel.png'"
+					:src="currentTab === 'income' ? '/static/invite/ic_tab_1_sel.png' : '/static/invite/ic_tab_1_unsel.png'"
 					mode="widthFix"></image>
-				<view class="tab-label tab-label-invite" :class="{ 'tab-label-active': currentTab === 'invite' }">
-					<text>我的邀请</text>
+				<view class="tab-label tab-label-invite" :class="{ 'tab-label-active': currentTab === 'income' }">
+					<text>我的收益</text>
 				</view>
 			</view>
 
 			<view class="tab-item tab-item-right">
 				<image class="tab-bg"
-					:src="currentTab === 'income' ? '/static/invite/ic_tab_1_sel.png' : '/static/invite/ic_tab_1_unsel.png'"
+					:src="currentTab === 'invite' ? '/static/invite/ic_tab_1_sel.png' : '/static/invite/ic_tab_1_unsel.png'"
 					mode="widthFix"></image>
-				<view class="tab-label tab-label-income" :class="{ 'tab-label-active': currentTab === 'income' }">
-					<text>我的收益</text>
+				<view class="tab-label tab-label-income" :class="{ 'tab-label-active': currentTab === 'invite' }">
+					<text>我的邀请</text>
 				</view>
 			</view>
 
 			<!-- 透明点击命中层：左侧宽度 230rpx（= 360 - 130），右侧从 230rpx 开始覆盖 360rpx -->
-			<view class="tab-hit tab-hit-left" @click="switchTab('invite')"></view>
-			<view class="tab-hit tab-hit-right" @click="switchTab('income')"></view>
+			<view class="tab-hit tab-hit-left" @click="switchTab('income')"></view>
+			<view class="tab-hit tab-hit-right" @click="switchTab('invite')"></view>
 		</view>
 
 		<!-- 内容区 -->
@@ -93,7 +93,7 @@
 					<!-- 有数据时展示列表 -->
 					<scroll-view v-if="incomeList && incomeList.length" scroll-y="true" class="income-scroll">
 						<view v-for="(item, index) in incomeList" :key="index" class="income-item">
-							<view class="income-avatar"></view>
+							<image class="income-avatar" :src="item.avatar" mode="aspectFill"></image>
 							<view class="income-name-time">
 								<text class="income-name">{{ item.name }}</text>
 								<text class="income-time">{{ item.time }}</text>
@@ -119,7 +119,7 @@
 		data() {
 			return {
 				inviteCode: '',
-				currentTab: 'invite', // invite | income
+				currentTab: 'income', // invite | income
 				totalAmount: '0.00',
 				monthAmount: '0.00',
 				lastMonthAmount: '0.00',
@@ -284,12 +284,14 @@
 					success: (res) => {
 						try {
 							const data = res.data || {};
-							if (data.code === 0 && data.body) {
+ 							// 后端返回：code = 200 表示成功
+ 							if (data.code === 200  && data.body) {
 								const body = data.body || {};
 								const total = typeof body.totalProfit === 'number' ? body.totalProfit : Number(
 									body.totalProfit || 0);
-								const month = typeof body.monthProfit === 'number' ? body.monthProfit : Number(
-									body.monthProfit || 0);
+ 								// 有些环境可能返回 latestActivityProfit，没有 monthProfit，这里做兼容
+ 								const rawMonth = body.monthProfit != null ? body.monthProfit : body.latestActivityProfit;
+ 								const month = typeof rawMonth === 'number' ? rawMonth : Number(rawMonth || 0);
 								const last = typeof body.cashBalance === 'number' ? body.cashBalance : Number(
 									body.cashBalance || 0);
 
@@ -377,6 +379,7 @@
 							if (data.code === 200 && Array.isArray(data.body)) {
 								const list = data.body.map((item) => {
 									return {
+										avatar: item.inviteeHeadImgUrl || '',
 										name: item.inviteeNickName || '好友',
 										time: "邀请时间：" + item.inviteTime || ''
 									};
@@ -561,8 +564,10 @@
 	.tab-hit {
 		position: absolute;
 		top: 0;
-		height: 120rpx; /* 与 tab-wrap/tab-item 高度保持一致 */
-		z-index: 10; /* 高于 tab-item，确保能接收点击 */
+		height: 120rpx;
+		/* 与 tab-wrap/tab-item 高度保持一致 */
+		z-index: 10;
+		/* 高于 tab-item，确保能接收点击 */
 		background-color: transparent;
 	}
 
@@ -727,7 +732,7 @@
 
 	/* 可点击的《活动规则》链接：颜色更深，后续只改这里即可 */
 	.withdraw-rule-link {
-		color: #6b3a12;
+		color: #237ded;
 		font-weight: 600;
 		//text-decoration: underline;
 	}
@@ -800,16 +805,25 @@
 		flex-direction: row;
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+ 		justify-content: space-between;
 	}
 
 	.income-name {
 		color: #98531f;
 		font-size: 24.67rpx;
+ 		/* 限制最大展示宽度，超出用省略号，不挤压右侧时间 */
+ 		max-width: 300rpx;
+ 		overflow: hidden;
+ 		text-overflow: ellipsis;
+ 		white-space: nowrap;
+ 		flex-shrink: 1;
+ 		margin-right: 20rpx;
 	}
 
 	.income-time {
 		color: #98531f;
 		font-size: 24.67rpx;
+ 		/* 右侧时间不参与收缩，保证完整展示 */
+ 		flex-shrink: 0;
 	}
 </style>
