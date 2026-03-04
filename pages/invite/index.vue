@@ -245,6 +245,9 @@
 				});
 			},
 			handleMiddleClick() {
+				if(this.isEnded){
+					return;
+				}
 				// 中间红包点击：将邀请码字符串传递给原生，用于弹出邀请分享弹框
 				const content = this.inviteCode;
 				try {
@@ -262,8 +265,18 @@
 				});
 			},
 			switchTab(key) {
-				if (this.currentTab === key) return;
-				this.currentTab = key;
+				const isSameTab = this.currentTab === key;
+				if (!isSameTab) {
+					this.currentTab = key;
+				}
+				// 点击“我的邀请”时刷新邀请记录（同 tab 重复点击也刷新）
+				if (key === 'invite') {
+					if (this.activityId === null || this.activityId === undefined) {
+						this.fetchLatestActivity();
+					} else {
+						this.fetchInviteRecords();
+					}
+				}
 			},
 			// 构建带 token 的请求头
 			buildAuthHeader() {
