@@ -80,7 +80,7 @@
 
 				<text class="withdraw-rule-title">提现规则:</text>
 				<text class="withdraw-rule-content">
-					1. 活动结束后，满50元即可提现,提现后自动转入微信或支付宝;
+					1. 活动结束后，满10元即可提现,提现后自动转入微信或支付宝;
 					2. 提现审核预计20个工作日完成，有疑问可联系客服；
 					3. 为优化和提升服务体验,平台近期对提现规则进行更新,具体详见
 					<text class="withdraw-rule-link" @click.stop="handleRuleClick">《活动规则》</text>。
@@ -172,7 +172,7 @@
 			// 拉取页面所需数据
 			this.fetchInviteCode();
 			this.fetchUserIncome();
-			this.fetchLatestActivity();
+			this.fetchLatestActivity(true);
 		},
 		methods: {
 			handleBack() {
@@ -245,7 +245,7 @@
 				});
 			},
 			handleMiddleClick() {
-				if(this.isEnded){
+				if (this.isEnded) {
 					return;
 				}
 				// 中间红包点击：将邀请码字符串传递给原生，用于弹出邀请分享弹框
@@ -271,11 +271,9 @@
 				}
 				// 点击“我的邀请”时刷新邀请记录（同 tab 重复点击也刷新）
 				if (key === 'invite') {
-					if (this.activityId === null || this.activityId === undefined) {
-						this.fetchLatestActivity();
-					} else {
-						this.fetchInviteRecords();
-					}
+					this.fetchInviteRecords();
+				} else {
+					this.fetchLatestActivity(false);
 				}
 			},
 			// 构建带 token 的请求头
@@ -297,14 +295,15 @@
 					success: (res) => {
 						try {
 							const data = res.data || {};
- 							// 后端返回：code = 200 表示成功
- 							if (data.code === 200  && data.body) {
+							// 后端返回：code = 200 表示成功
+							if (data.code === 200 && data.body) {
 								const body = data.body || {};
 								const total = typeof body.totalProfit === 'number' ? body.totalProfit : Number(
 									body.totalProfit || 0);
- 								// 有些环境可能返回 latestActivityProfit，没有 monthProfit，这里做兼容
- 								const rawMonth = body.monthProfit != null ? body.monthProfit : body.latestActivityProfit;
- 								const month = typeof rawMonth === 'number' ? rawMonth : Number(rawMonth || 0);
+								// 有些环境可能返回 latestActivityProfit，没有 monthProfit，这里做兼容
+								const rawMonth = body.monthProfit != null ? body.monthProfit : body
+									.latestActivityProfit;
+								const month = typeof rawMonth === 'number' ? rawMonth : Number(rawMonth || 0);
 								const last = typeof body.cashBalance === 'number' ? body.cashBalance : Number(
 									body.cashBalance || 0);
 
@@ -322,7 +321,7 @@
 				});
 			},
 			// 获取最新活动信息（时间 + activityId）
-			fetchLatestActivity() {
+			fetchLatestActivity(isfetchInviteRecords) {
 				if (!this.baseUrl) return;
 				uni.request({
 					url: this.baseUrl + '/lrjkapp/activity/getLatestActivity',
@@ -348,7 +347,8 @@
 								}
 
 								// 活动信息拿到后再请求邀请记录
-								if (this.activityId !== null && this.activityId !== undefined) {
+								if (isfetchInviteRecords && this.activityId !== null && this.activityId !==
+									undefined) {
 									this.fetchInviteRecords();
 								}
 							}
@@ -378,6 +378,36 @@
 					return timeStr;
 				}
 			},
+			// 格式化邀请时间：2026-06-10 00:00:00 -> 2026-06-10（去掉小时分秒）
+			formatInviteDate(timeVal) {
+				if (timeVal === null || timeVal === undefined || timeVal === '') return '';
+				const raw = String(timeVal).trim();
+				// 常见格式：YYYY-MM-DD HH:mm:ss / YYYY-MM-DD
+				if (/^\d{4}-\d{2}-\d{2}/.test(raw)) return raw.slice(0, 10);
+				// 兜底：时间戳（秒/毫秒）
+				if (/^\d+$/.test(raw)) {
+					const n = Number(raw);
+					const ms = raw.length === 10 ? n * 1000 : n;
+					const d = new Date(ms);
+					if (!isNaN(d.getTime())) {
+						const yyyy = d.getFullYear();
+						const mm = ('0' + (d.getMonth() + 1)).slice(-2);
+						const dd = ('0' + d.getDate()).slice(-2);
+						return `${yyyy}-${mm}-${dd}`;
+					}
+				}
+				// 兜底：尝试 Date 解析
+				try {
+					const d = new Date(raw.replace(/-/g, '/'));
+					if (!isNaN(d.getTime())) {
+						const yyyy = d.getFullYear();
+						const mm = ('0' + (d.getMonth() + 1)).slice(-2);
+						const dd = ('0' + d.getDate()).slice(-2);
+						return `${yyyy}-${mm}-${dd}`;
+					}
+				} catch (e) {}
+				return raw;
+			},
 			// 获取邀请记录列表
 			fetchInviteRecords() {
 				if (!this.baseUrl || this.activityId === null || this.activityId === undefined) return;
@@ -391,10 +421,14 @@
 							const data = res.data || {};
 							if (data.code === 200 && Array.isArray(data.body)) {
 								const list = data.body.map((item) => {
+									const inviteDate = this.formatInviteDate(item.inviteTime);
+									const consumed = item.hasConsumed === 1 || item.hasConsumed ===
+									'1';
+									const payText = consumed ? '已付费' : '未付费';
 									return {
 										avatar: item.inviteeHeadImgUrl || '',
 										name: item.inviteeNickName || '好友',
-										time: "邀请时间：" + item.inviteTime || ''
+										time: `邀请时间：${inviteDate || ''}${inviteDate ? ' ' : ''}${payText}`
 									};
 								});
 								this.incomeList = list;
@@ -818,25 +852,25 @@
 		flex-direction: row;
 		display: flex;
 		align-items: center;
- 		justify-content: space-between;
+		justify-content: space-between;
 	}
 
 	.income-name {
 		color: #98531f;
 		font-size: 24.67rpx;
- 		/* 限制最大展示宽度，超出用省略号，不挤压右侧时间 */
- 		max-width: 300rpx;
- 		overflow: hidden;
- 		text-overflow: ellipsis;
- 		white-space: nowrap;
- 		flex-shrink: 1;
- 		margin-right: 20rpx;
+		/* 限制最大展示宽度，超出用省略号，不挤压右侧时间 */
+		max-width: 300rpx;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		flex-shrink: 1;
+		margin-right: 20rpx;
 	}
 
 	.income-time {
 		color: #98531f;
 		font-size: 24.67rpx;
- 		/* 右侧时间不参与收缩，保证完整展示 */
- 		flex-shrink: 0;
+		/* 右侧时间不参与收缩，保证完整展示 */
+		flex-shrink: 0;
 	}
 </style>
