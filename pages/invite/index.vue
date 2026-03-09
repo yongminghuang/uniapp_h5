@@ -80,9 +80,9 @@
 
 				<text class="withdraw-rule-title">提现规则:</text>
 				<text class="withdraw-rule-content">
-					1. 活动结束后，满10元即可提现,提现后自动转入微信或支付宝;
+					1. 活动结束后，满10元即可提现，提现后自动转入微信或支付宝；
 					2. 提现审核预计20个工作日完成，有疑问可联系客服；
-					3. 为优化和提升服务体验,平台近期对提现规则进行更新,具体详见
+					3. 为优化和提升服务体验，平台近期对提现规则进行更新，具体详见
 					<text class="withdraw-rule-link" @click.stop="handleRuleClick">《活动规则》</text>。
 				</text>
 			</view>
@@ -96,7 +96,10 @@
 							<image class="income-avatar" :src="item.avatar" mode="aspectFill"></image>
 							<view class="income-name-time">
 								<text class="income-name">{{ item.name }}</text>
-								<text class="income-time">{{ item.time }}</text>
+								<view class="income-time-wrap">
+									<text class="income-time-date">邀请时间:{{ item.inviteDate }}</text>
+									<text class="income-time-status">{{ item.payText }}</text>
+								</view>
 							</view>
 						</view>
 					</scroll-view>
@@ -423,12 +426,13 @@
 								const list = data.body.map((item) => {
 									const inviteDate = this.formatInviteDate(item.inviteTime);
 									const consumed = item.hasConsumed === 1 || item.hasConsumed ===
-									'1';
+										'1';
 									const payText = consumed ? '已付费' : '未付费';
 									return {
 										avatar: item.inviteeHeadImgUrl || '',
 										name: item.inviteeNickName || '好友',
-										time: `邀请时间：${inviteDate || ''}${inviteDate ? ' ' : ''}${payText}`
+										inviteDate: inviteDate,
+										payText: payText
 									};
 								});
 								this.incomeList = list;
@@ -867,10 +871,22 @@
 		margin-right: 20rpx;
 	}
 
-	.income-time {
+	.income-time-wrap {
+		display: flex;
+		align-items: center;
+		/* 邀请时间和付费状态不折行、不被压缩，保证一行完整展示 */
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+
+	.income-time-date {
 		color: #98531f;
 		font-size: 24.67rpx;
-		/* 右侧时间不参与收缩，保证完整展示 */
-		flex-shrink: 0;
+	}
+
+	.income-time-status {
+		color: #98531f;
+		font-size: 24.67rpx;
+		margin-left: 20rpx;
 	}
 </style>
