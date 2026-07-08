@@ -170,7 +170,7 @@
 
 			this.authToken = token;
 			this.env = env;
-			this.baseUrl = env === 'test' ? 'https://lrjk-test.jx885.com' : 'https://lrjk.jx885.com';
+			this.baseUrl = env === 'test' ? 'https://ult-test.xmzhujing.com' : 'https://ult.xmzhujing.com';
 			console.log('token', token, 'env', env);
 			// 拉取页面所需数据
 			this.fetchInviteCode();
