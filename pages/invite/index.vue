@@ -213,7 +213,7 @@
 			fetchInviteCode() {
 				if (!this.baseUrl) return;
 				uni.request({
-					url: this.baseUrl + '/inviteFission/generateInviteCode',
+					url: this.baseUrl + '/app/inviteFission/generateInviteCode',
 					method: 'POST',
 					header: this.buildAuthHeader(),
 					success: (res) => {
@@ -293,7 +293,7 @@
 			fetchUserIncome() {
 				if (!this.baseUrl) return;
 				uni.request({
-					url: this.baseUrl + '/inviteFission/getUserIncome',
+					url: this.baseUrl + '/app/inviteFission/getUserIncome',
 					method: 'GET',
 					header: this.buildAuthHeader(),
 					success: (res) => {
@@ -412,7 +412,7 @@
 			fetchInviteRecords() {
 				if (!this.baseUrl) return;
 				uni.request({
-					url: this.baseUrl + '/inviteFission/getInviteRecords',
+					url: this.baseUrl + '/app/inviteFission/getInviteRecords',
 					method: 'POST',
 					header: this.buildAuthHeader(),
 					success: (res) => {
