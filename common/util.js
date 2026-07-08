@@ -183,13 +183,13 @@ var appHttpAddress = function() {
 	if (env == "develop") {
 		http_app = 'http://192.168.2.204:10001'
 	} else if (env == "develop2") {
-		http_app = 'http://lrjk-test.jx885.com'
+		http_app = 'https://ult-test.xmzhujing.com'
 	} else if (env == "trial") {
-		http_app = 'https://lrjk-test.jx885.com'
+		http_app = 'https://ult-test.xmzhujing.com'
 	} else if (env == "trial2") {
 		http_app = 'https://lrjk-sim.jx885.com'
 	} else if (env == "release") {
-		http_app = 'https://lrjk.jx885.com'
+		http_app = 'https://ult.xmzhujing.com'
 	} else if (env == "zicai") {
 		http_app = 'http://192.168.3.145:8080'
 	}
@@ -208,13 +208,13 @@ var appGetHttpAddress = function() {
 	if (env == "develop") {
 		http_app = 'http://192.168.2.204:10001'
 	} else if (env == "develop2") {
-		http_app = 'http://lrjk-test.jx885.com'
+		http_app = 'https://ult-test.xmzhujing.com'
 	} else if (env == "trial") {
-		http_app = 'https://lrjk-test.jx885.com'
+		http_app = 'https://ult-test.xmzhujing.com'
 	} else if (env == "trial2") {
 		http_app = 'https://lrjk-sim.jx885.com'
 	} else if (env == "release") {
-		http_app = 'https://lrjk.jx885.com'
+		http_app = 'https://ult.xmzhujing.com'
 	} else if (env == "zicai") {
 		http_app = 'http://192.168.2.204:10001'
 	}
