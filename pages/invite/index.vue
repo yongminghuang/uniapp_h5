@@ -4,9 +4,9 @@
 		<image class="bg-top" src="/static/invite/bg_invite.png" mode="widthFix"></image>
 
 		<!-- 活动时间 -->
-		<view class="activity-time">
+		<!-- <view class="activity-time">
 			<text>{{ activityTimeText }}</text>
-		</view>
+		</view> -->
 
 		<!-- 返回按钮 -->
 		<image class="btn-back" src="/static/invite/ic_back.png" mode="aspectFit" @click="handleBack"></image>
@@ -175,7 +175,8 @@
 			// 拉取页面所需数据
 			this.fetchInviteCode();
 			this.fetchUserIncome();
-			this.fetchLatestActivity(true);
+			// this.fetchLatestActivity(true);
+			this.fetchInviteRecords();
 		},
 		methods: {
 			handleBack() {
@@ -276,7 +277,7 @@
 				if (key === 'invite') {
 					this.fetchInviteRecords();
 				} else {
-					this.fetchLatestActivity(false);
+					// this.fetchLatestActivity(false);
 				}
 			},
 			// 构建带 token 的请求头
@@ -324,63 +325,63 @@
 				});
 			},
 			// 获取最新活动信息（时间 + activityId）
-			fetchLatestActivity(isfetchInviteRecords) {
-				if (!this.baseUrl) return;
-				uni.request({
-					url: this.baseUrl + '/lrjkapp/activity/getLatestActivity',
-					method: 'GET',
-					data: {
-						activityCode: 'invite_fission'
-					},
-					header: this.buildAuthHeader(),
-					success: (res) => {
-						try {
-							const data = res.data || {};
-							if ((data.code === 200) && data.body) {
-								const body = data.body || {};
-								this.activityId = body.id;
-								// 活动是否结束：false 显示进行中图，true 显示结束图
-								this.isEnded = Boolean(body.isEnded);
-								const start = body.startTime || '';
-								const end = body.endTime || '';
-								const startText = start //this.formatActivityTime(start);
-								const endText = end //this.formatActivityTime(end);
-								if (startText && endText) {
-									this.activityTimeText = `活动时间:${startText}~${endText}`;
-								}
-
-								// 活动信息拿到后再请求邀请记录
-								if (isfetchInviteRecords && this.activityId !== null && this.activityId !==
-									undefined) {
-									this.fetchInviteRecords();
-								}
-							}
-						} catch (e) {
-							console.error('解析活动信息失败', e);
-						}
-					},
-					fail: (err) => {
-						console.error('获取活动信息失败', err);
-					}
-				});
-			},
+			// fetchLatestActivity(isfetchInviteRecords) {
+			// 	if (!this.baseUrl) return;
+			// 	uni.request({
+			// 		url: this.baseUrl + '/lrjkapp/activity/getLatestActivity',
+			// 		method: 'GET',
+			// 		data: {
+			// 			activityCode: 'invite_fission'
+			// 		},
+			// 		header: this.buildAuthHeader(),
+			// 		success: (res) => {
+			// 			try {
+			// 				const data = res.data || {};
+			// 				if ((data.code === 200) && data.body) {
+			// 					const body = data.body || {};
+			// 					this.activityId = body.id;
+			// 					// 活动是否结束：false 显示进行中图，true 显示结束图
+			// 					this.isEnded = Boolean(body.isEnded);
+			// 					const start = body.startTime || '';
+			// 					const end = body.endTime || '';
+			// 					const startText = start //this.formatActivityTime(start);
+			// 					const endText = end //this.formatActivityTime(end);
+			// 					if (startText && endText) {
+			// 						this.activityTimeText = `活动时间:${startText}~${endText}`;
+			// 					}
+			// 
+			// 					// 活动信息拿到后再请求邀请记录
+			// 					if (isfetchInviteRecords && this.activityId !== null && this.activityId !==
+			// 						undefined) {
+			// 						this.fetchInviteRecords();
+			// 					}
+			// 				}
+			// 			} catch (e) {
+			// 				console.error('解析活动信息失败', e);
+			// 			}
+			// 		},
+			// 		fail: (err) => {
+			// 			console.error('获取活动信息失败', err);
+			// 		}
+			// 	});
+			// },
 			// 格式化活动时间：2026-06-10 00:00:00 -> 6.10 00:00
-			formatActivityTime(timeStr) {
-				if (!timeStr) return '';
-				try {
-					const d = new Date((timeStr + '').replace(/-/g, '/'));
-					if (isNaN(d.getTime())) {
-						return timeStr;
-					}
-					const month = d.getMonth() + 1;
-					const day = d.getDate();
-					const hh = ('0' + d.getHours()).slice(-2);
-					const mm = ('0' + d.getMinutes()).slice(-2);
-					return `${month}.${day} ${hh}:${mm}`;
-				} catch (e) {
-					return timeStr;
-				}
-			},
+			// formatActivityTime(timeStr) {
+			// 	if (!timeStr) return '';
+			// 	try {
+			// 		const d = new Date((timeStr + '').replace(/-/g, '/'));
+			// 		if (isNaN(d.getTime())) {
+			// 			return timeStr;
+			// 		}
+			// 		const month = d.getMonth() + 1;
+			// 		const day = d.getDate();
+			// 		const hh = ('0' + d.getHours()).slice(-2);
+			// 		const mm = ('0' + d.getMinutes()).slice(-2);
+			// 		return `${month}.${day} ${hh}:${mm}`;
+			// 	} catch (e) {
+			// 		return timeStr;
+			// 	}
+			// },
 			// 格式化邀请时间：2026-06-10 00:00:00 -> 2026-06-10（去掉小时分秒）
 			formatInviteDate(timeVal) {
 				if (timeVal === null || timeVal === undefined || timeVal === '') return '';
