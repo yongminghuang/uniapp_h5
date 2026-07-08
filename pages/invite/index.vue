@@ -213,7 +213,7 @@
 			fetchInviteCode() {
 				if (!this.baseUrl) return;
 				uni.request({
-					url: this.baseUrl + '/lrjkapp/user/generateInviteCode',
+					url: this.baseUrl + '/inviteFission/generateInviteCode',
 					method: 'POST',
 					header: this.buildAuthHeader(),
 					success: (res) => {
@@ -293,7 +293,7 @@
 			fetchUserIncome() {
 				if (!this.baseUrl) return;
 				uni.request({
-					url: this.baseUrl + '/lrjkapp/income/getUserIncome',
+					url: this.baseUrl + '/inviteFission/getUserIncome',
 					method: 'GET',
 					header: this.buildAuthHeader(),
 					success: (res) => {
@@ -304,15 +304,11 @@
 								const body = data.body || {};
 								const total = typeof body.totalProfit === 'number' ? body.totalProfit : Number(
 									body.totalProfit || 0);
-								// 有些环境可能返回 latestActivityProfit，没有 monthProfit，这里做兼容
-								const rawMonth = body.monthProfit != null ? body.monthProfit : body
-									.latestActivityProfit;
-								const month = typeof rawMonth === 'number' ? rawMonth : Number(rawMonth || 0);
 								const last = typeof body.cashBalance === 'number' ? body.cashBalance : Number(
 									body.cashBalance || 0);
 
 								this.totalAmount = total.toFixed(2);
-								this.monthAmount = month.toFixed(2);
+								this.monthAmount = '0.00';
 								this.lastMonthAmount = last.toFixed(2);
 							}
 						} catch (e) {
@@ -414,10 +410,9 @@
 			},
 			// 获取邀请记录列表
 			fetchInviteRecords() {
-				if (!this.baseUrl || this.activityId === null || this.activityId === undefined) return;
+				if (!this.baseUrl) return;
 				uni.request({
-					url: this.baseUrl + '/lrjkapp/user/getInviteRecords?activityId=' + encodeURIComponent(this
-						.activityId),
+					url: this.baseUrl + '/inviteFission/getInviteRecords',
 					method: 'POST',
 					header: this.buildAuthHeader(),
 					success: (res) => {
@@ -426,8 +421,7 @@
 							if (data.code === 200 && Array.isArray(data.body)) {
 								const list = data.body.map((item) => {
 									const inviteDate = this.formatInviteDate(item.inviteTime);
-									const consumed = item.hasConsumed === 1 || item.hasConsumed ===
-										'1';
+									const consumed = typeof item.comm === 'number' && item.comm > 0;
 									const payText = consumed ? '已付费' : '未付费';
 									return {
 										avatar: item.inviteeHeadImgUrl || '',
