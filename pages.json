@@ -7,7 +7,15 @@
 			"style": {
 				"navigationBarTitleText": "邀请好友赚钱",
 				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#FFAF24",
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"titleNView": false,
+					"statusbar": {
+						"background": "#FFAF24"
+					}
+				}
 			}
 		}, {
 			"path": "pages/spee_200/index",

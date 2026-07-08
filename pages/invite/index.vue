@@ -172,6 +172,13 @@
 			this.env = env;
 			this.baseUrl = env === 'test' ? 'https://ult-test.xmzhujing.com' : 'https://ult.xmzhujing.com';
 			console.log('token', token, 'env', env);
+
+			// 动态设置状态栏和标题栏颜色为 #FFAF24
+			uni.setNavigationBarColor({
+				frontColor: '#000000',
+				backgroundColor: '#FFAF24'
+			});
+
 			// 拉取页面所需数据
 			this.fetchInviteCode();
 			this.fetchUserIncome();
