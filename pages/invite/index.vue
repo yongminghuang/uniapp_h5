@@ -20,6 +20,10 @@
 			<image class="middle-bg"
 				:src="isEnded ? '/static/invite/ic_middle_end.png' : '/static/invite/ic_middle.png'" mode="aspectFit">
 			</image>
+			<!-- 返佣比例文本显示：达人显示15%返佣，普通用户显示10%返佣 -->
+			<view class="creator-commission">
+				<text class="commission-text">{{ userRole === 'creator' ? '15%返佣' : '10%返佣' }}</text>
+			</view>
 			<view class="invite-code-wrap">
 				<view class="invite-code-arc"></view>
 				<text class="invite-code-text">
@@ -133,14 +137,16 @@
 				authToken: '',
 				activityId: null,
 				activityTimeText: '活动时间:--',
-				isEnded: false
+				isEnded: false,
+				userRole: '' // creator 时表示达人
 			};
 		},
 		onLoad(options) {
-			// 解析路径入参：t( token )、env
+			// 解析路径入参：t( token )、env、userRole
 			// 1. 优先使用 onLoad(options)（小程序、App）
 			let token = (options && (options.t || options.token)) || '';
 			let env = (options && options.env) || '';
+			let userRole = (options && options.userRole) || '';
 
 			// 2. H5 场景下，如果前面没有带上（如：...?t=xxx&env=test#/），再从 window.location 中解析
 			if (typeof window !== 'undefined') {
@@ -158,6 +164,9 @@
 						if (!env) {
 							env = usp.get('env') || '';
 						}
+						if (!userRole) {
+							userRole = usp.get('userRole') || '';
+						}
 					}
 				} catch (e) {
 					console.error('解析 H5 URL 参数失败', e);
@@ -170,8 +179,9 @@
 
 			this.authToken = token;
 			this.env = env;
+			this.userRole = userRole;
 			this.baseUrl = env === 'test' ? 'https://ult-test.xmzhujing.com' : 'https://ult.xmzhujing.com';
-			console.log('token', token, 'env', env);
+			console.log('token', token, 'env', env, 'userRole', userRole);
 
 			// 动态设置状态栏和标题栏颜色为 #FFAF24
 			uni.setNavigationBarColor({
@@ -514,6 +524,25 @@
 	.middle-bg {
 		width: 100%;
 		height: 100%;
+	}
+
+	.creator-commission {
+		position: absolute;
+		top: 110rpx;
+		left: 0;
+		right: 0;
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 2;
+	}
+
+	.commission-text {
+		font-size: 54rpx;
+		font-weight: bold;
+		color: #e53d30;
+		line-height: 1;
 	}
 
 	.invite-code-wrap {
