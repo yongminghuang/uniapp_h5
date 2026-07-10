@@ -280,7 +280,7 @@
 			handleWithdraw() {
 				// 活动结束后提示文案
 				uni.showToast({
-					title: '活动结束后20个工作开放，有问题请联系客服。',
+					title: '提现审核中，有问题请联系客服',
 					icon: 'none',
 					duration: 3000
 				});
