@@ -252,7 +252,7 @@
 			handleRuleClick() {
 				console.log("=====handleRuleClick");
 				// 活动规则 H5
-				const url = 'https://img.jx885.com/lrjk/html/invite_friend/event_rules.html';
+				const url = 'https://img.jx885.com/pass-license/html/event_rules.html';
 				const title = '活动规则';
 				uni.navigateTo({
 					url: '/pages/web/web-page',
